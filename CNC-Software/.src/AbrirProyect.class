@@ -1,0 +1,231 @@
+' Gambas class file
+
+Public xx As New String[]
+Public yy As New String[]
+Public contenidox As String
+ Public contenidoy As String
+
+Public Sub Form_Open()
+Mysql.CONECTAR_BD
+abrir.SetFocus
+P1.Y = -60
+P2.Y = -60
+P3.Y = -60
+P4.Y = -60
+Me.Center
+Label5.Text = Mysql.Usuarionombre
+End
+
+Public Sub buss_GotFocus()
+buss.Text = ""
+buss.Foreground = Color.White
+End
+
+Public Sub buss_LostFocus()
+If buss.Text = "" Then
+buss.Text = "Buscar"
+buss.Foreground = Color.Gray
+Endif
+End
+
+
+
+
+Public Sub DataBrowser1_MouseDown()
+P1.Y = -60
+P2.Y = -60
+P3.Y = -60
+P4.Y = -60
+
+Timer1.Enabled = True
+Timer2.Enabled = True
+
+ L1.Visible = True
+L2.Visible = True
+L3.Visible = True
+L4.Visible = True
+L5.Visible = True
+L6.Visible = True
+C1.Visible = True
+L2.Text = DataControl1.Value
+L4.Text = DataControl2.Value
+l6.Text = DataControl3.Value
+If DataControl4.Value = 1 Then
+c1.Value = True 
+Else
+C1.Value = False
+Endif
+End
+
+
+
+
+
+
+
+
+Public Sub Label2_MouseMove()
+
+AbrirProyect.X = (Mouse.ScreenX)
+ Wait 0.002
+AbrirProyect.Y = (Mouse.ScreenY)
+
+End
+
+
+
+
+Public Sub Button1_Click()
+Me.Close
+End
+
+
+Public Sub Button2_Click()
+
+Me.Minimized = True
+
+End
+
+Public Sub Timer1_Timer()
+If PictureBox1.X <> 1700 Then 
+PictureBox1.X = PictureBox1.X + 10
+Else
+Timer1.Enabled = False
+Endif
+
+End
+
+Public Sub Timer2_Timer()
+
+If P1.Y < 72 Then
+  P1.Y = P1.Y + 4
+End If
+If P2.Y < 128 Then
+  P2.Y = P2.Y + 4
+End If
+If P3.Y < 184 Then
+  P3.Y = P3.Y + 4
+End If
+If P4.Y < 240 Then
+  P4.Y = P4.Y + 4
+End If
+If P4.Y = 240 Or P4.Y > 240 Then Timer2.Enabled = False
+
+End
+
+Public Sub abrir_Click()
+Dim selecttx As Result
+Dim selectty As Result
+Dim loadtemp As Result
+Dim borrartemp As Result
+Dim i As Integer
+If DataControl1.value = "" Then 
+Message.Info("Selecione un proyecto")
+Else
+Mysql.Proyectonombre = L2.Text
+
+FMain.Show
+FMain.num_menos = FMain.num_menos + 1
+FMain.num_mas = 0
+bdArray.Borrar
+selecttx = Mysql.Conexion.Exec("select x from Graficos where nombre = '" & DataControl1.value & "' ")
+selectty = Mysql.Conexion.Exec("select y from Graficos  where nombre = '" & DataControl1.value & "' ")
+borrartemp = Mysql.Conexion.Exec("truncate table Graficos_temp")
+loadtemp = Mysql.Conexion.Exec("INSERT INTO Graficos_temp (x,y,id,fecha,usuario,nombre )Select x, y, id,fecha,usuario,nombre From Graficos WHERE nombre ='" & DataControl1.value & "'")
+FMain.maxx = selecttx.Count
+FMain.maxx = FMain.maxx - FMain.num_menos
+For i = 1 To FMain.maxx + 1 Step 1
+ FMain.pointsArr_x.Add(selecttx[0])
+ FMain.pointsArr_y.Add(selectty[0])
+selecttx.MoveNext
+selectty.MoveNext
+   Next
+  FMain.Form_Open
+  FMain.num_menos = 0
+   Me.Close
+Endif
+End
+
+
+  
+
+
+
+
+
+Public Sub cerrar_Click()
+Me.Close
+Mysql.Cerrar_BD
+End
+
+
+
+Public Sub cerrar2_Click()
+Me.Close
+Mysql.Cerrar_BD
+NuevoProyect.Show
+End
+
+
+
+Public Sub ToggleButton2_Click()
+
+  DataSource1.Filter = ("Usuario = '" & Label5.Text & "' ")
+
+End
+
+Public Sub ToggleButton1_Click()
+
+
+  DataSource1.Filter = ("")
+
+End
+
+Public Sub buss_KeyRelease()
+  DataSource1.Filter = ("match(Proyecto_nombre)against('" & buss.Text & "') ")
+  
+  If buss.Text = "" Then
+   DataSource1.Filter = ("")
+   Endif
+End
+  
+
+
+
+
+
+Public Sub abrir2_Click()
+Dim i As Integer
+Dim datos As New String[]
+Dim proyecto As String
+
+ FMain.pointsArr_x.Clear
+ FMain.pointsArr_y.Clear
+ 
+Dialog.Filter = ["*.cnc", "Archivo CNCAD"]
+
+
+ If Dialog.OpenFile() Then Return
+ 
+
+proyecto = File.Load(Dialog.Path)
+contenidox = File.load(Dialog.Path & "x")
+ contenidoy = File.load(Dialog.Path & "y")
+xx.Clear
+ yy.Clear
+datos = Split(proyecto, "/")
+  xx = Split(contenidox, "-")
+    yy = Split(contenidoy, "-")
+    
+Mysql.Proyectonombre = (datos[1])
+  For i = 0 To xx.Max
+  FMain.pointsArr_x.Add(CFloat(xx[i]))
+  Next
+  
+     For i = 0 To yy.Max
+    FMain.pointsArr_y.Add(CFloat(yy[i]))
+    Next
+ FMain.Form_Open
+    FMain.Show
+
+End

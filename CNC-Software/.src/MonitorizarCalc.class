@@ -1,0 +1,456 @@
+' Gambas class file
+
+Public selecttx As Result
+Public selectty As Result 
+Public pasos As Result
+Public pasosz As Result
+Public ii As Integer
+Public s As Integer
+Public d As Integer
+Public ProyectoName As String
+
+Public Sub Calcular_Click()
+Variables.limpiar
+Variables.Xcm = Xcm.Text
+Variables.Ycm = Ycm.Text
+Variables.TpMin = TpMin.Text
+Variables.PG = 200
+'MULTIPLICAR
+Variables.MULTIPLICAR
+Variables.Asignar
+Variables.Sumatorias
+Variables.MargError
+'LLAMAR
+Px.Text = Variables.Px
+Py.Text = Variables.Py
+Tpx.Text = Variables.Tpx
+Tpy.Text = Variables.Tpy
+GMx.Text = Variables.Gmx
+GMy.Text = Variables.Gmy
+SfracX.Text = Variables.SFracX
+SfracY.Text = Variables.SFracY
+STpx.Text = Variables.STpx
+STpy.Text = Variables.STpy
+Error.Text = Variables.Errorr
+End
+
+
+
+
+Public Sub calcularAuto_Click()
+
+Dim i As Integer
+Dim menor As Float
+Variables.limpiar
+menor = 10000000
+Variables.i = 0
+Variables.ii = 0
+GridView1.Clear
+Variables.SENTIDOX = TEX.Text
+Variables.SENTIDOY = TEY.Text
+For i = 2 To 10
+ Variables.TpMin = i
+Variables.limpiar
+Variables.Xcm = Xcm.Text
+Variables.Ycm = Ycm.Text
+Variables.PG = 200
+
+
+'MULTIPLICAR
+Variables.MULTIPLICAR
+Variables.Asignar
+Variables.Sumatorias
+Variables.MargError
+'LLAMAR
+Px.Text = Variables.Px
+Py.Text = Variables.Py
+Tpx.Text = Variables.Tpx
+Tpy.Text = Variables.Tpy
+GMx.Text = Variables.Gmx
+GMy.Text = Variables.Gmy
+SfracX.Text = Variables.SFracX
+SfracY.Text = Variables.SFracY
+STpx.Text = Variables.STpx
+STpy.Text = Variables.STpy
+Error.Text = Variables.Errorr
+Next
+
+For i = 0 To Variables.MError.Max Step 1
+  If menor > Variables.MError[i] Then
+ menor = Variables.MError[i]
+ Variables.TpMin = Variables.MTpMin[i]
+TpMin.Text = Variables.MTpMin[i]
+Variables.limpiar
+Variables.Xcm = Xcm.Text
+Variables.Ycm = Ycm.Text
+Variables.PG = 200
+'MULTIPLICAR
+Variables.MULTIPLICAR
+Variables.Asignar2
+Variables.Sumatorias
+Variables.MargError2
+'LLAMAR
+Px.Text = Variables.Px
+Py.Text = Variables.Py
+Tpx.Text = Variables.Tpx
+Tpy.Text = Variables.Tpy
+GMx.Text = Variables.Gmx
+GMy.Text = Variables.Gmy
+SfracX.Text = Variables.SFracX
+SfracY.Text = Variables.SFracY
+STpx.Text = Variables.STpx
+STpy.Text = Variables.STpy
+Error.Text = Variables.Errorr
+ Endif
+Next
+Variables.MError.Clear
+Variables.MTpMin.Clear
+
+End
+
+
+Public Sub Button1_Click()
+
+  Me.Close
+
+End
+
+
+
+Public Sub Button2_Click()
+
+Me.Minimized = True
+
+End
+
+
+Public Sub Button4_Click()
+
+ MatrisXY.Show 
+
+End
+
+
+
+
+Public Sub Form_Open()
+Label22.Text = Mysql.softwareandvercion
+CtrlManual.puerto = Open "/dev/port" For Write
+CtrlManual.Timer1_Timer()
+Variables.cmv = 7
+' s = 2
+' d = 10
+GridView1.Columns.Count = 2
+GridView1.Rows.Count = 9
+GridView1.Columns.Width = GridView1.Width / 2
+
+GridView2.Columns.Count = 5
+GridView2.Rows.Count = 500
+GridView2.Columns.Width = GridView2.Width / 5
+ MonitorizarCalc.Nombres.text = Mysql.Proyectonombre
+Mysql.CONECTAR_BD
+Catch
+End
+
+Public Sub cargar_Click()
+Dim i As Integer
+s = 2
+d = 10
+ProyectoName = Mysql.Proyectonombre
+If ProyectoName = "" Then
+ ProyectoName = MonitorizarCalc.Nombres.text
+Endif
+selecttx = Mysql.Conexion.Exec("select x from Graficos where nombre ='" & ProyectoName & "' ")
+selectty = Mysql.Conexion.Exec("select y from Graficos where nombre ='" & ProyectoName & "' ")
+pasos = Mysql.Conexion.Exec("select COUNT(*)from Graficos where nombre ='" & ProyectoName & "'")
+'***********************************************************************************************************
+For i = 0 To selecttx.Count - 1 Step 1
+
+If selecttx[0] = 0 Then
+
+ Variables.FX1.Add(0)
+Else
+ Variables.FX1.Add(((selecttx[0] / s) / d))
+ Endif
+ 
+
+If selectty[0] = 0 Then
+ Variables.FY1.Add(0)
+Else
+ Variables.FY1.Add(((selectty[0] / s) / d))
+ Endif
+'-------------------------------------------------------------------------------------------------
+  
+ selecttx.MoveNext
+
+If selecttx[0] = 0 Then
+ Variables.FX2.Add(0)
+Else
+ Variables.FX2.Add(((selecttx[0] / s) / d))
+Endif
+
+selectty.MoveNext
+
+If selectty[0] = 0 
+ Variables.FY2.Add(0)
+Else
+ Variables.FY2.Add(((selectty[0] / s) / d))
+Endif
+Next
+Catch
+End
+'***********************************************************************************************************
+
+Public Sub Button5_Click()
+Dim G As Boolean
+Dim i As Integer
+Dim tempp As Float
+Dim back As Integer
+Dim t As Integer
+GridView2.Clear
+GridView2[0, 0].Text = "Hata 0"
+GridView2[0, 1].Text = "A"
+GridView2[0, 2].Text = "Hasta 0"
+GridView2[0, 3].Text = "B"
+GridView2[0, 4].Text = "UP"
+ CtrlManual.Iniciar_Click()
+Variables.FX1.Clear
+Variables.FX2.Clear
+Variables.FY1.Clear
+Variables.FY2.Clear
+Variables.FY12.Clear
+Variables.FY12.Clear
+back = -15
+cargar_Click()
+For i = 0 To Variables.FX2.Count - 1
+If Variables.FX2[i] = 0 And Variables.FY2[i] = 0 Then 
+back = back + 1
+Endif
+Next
+ CtrlManual.up_Click()
+ 
+Wait 1
+GridView2[1, 0].Foreground = Color.Green
+GridView2[1, 1].Foreground = Color.Green
+GridView2[1, 4].Foreground = Color.Green
+GridView2[1, 2].Foreground = Color.Green
+GridView2[1, 3].Foreground = Color.Green
+
+GridView2[1, 0].Text = Variables.FX1[0]
+GridView2[1, 1].Text = "D"
+GridView2[1, 4].Text = "----"
+GridView2[1, 2].Text = "----"
+GridView2[1, 3].Text = "----"
+
+Variables.FX12.Add(Variables.FX1[0])
+Variables.Xcm = (Variables.FX1[0])
+Variables.SENTIDOX = "D"
+ Variables.SENTIDOY = "C"
+ Variables.Ycm = 0
+
+
+Stepper.XHY
+
+
+Variables.FY12.Add(Variables.FY1[0])
+GridView2[2, 1].Text = "----"
+GridView2[2, 2].Text = Variables.FY1[0]
+GridView2[2, 3].Text = "C"
+GridView2[2, 4].Text = "----"
+GridView2[2, 0].Text = "----"
+GridView2[2, 4].Text = "----"
+GridView2[2, 0].Foreground = Color.Green
+GridView2[2, 1].Foreground = Color.Green
+GridView2[2, 4].Foreground = Color.Green
+GridView2[2, 2].Foreground = Color.Green
+GridView2[2, 3].Foreground = Color.Green
+
+
+ Variables.SENTIDOY = "C"
+ Variables.Ycm = (Variables.FY12[0])
+ Variables.Xcm = 0
+Variables.SENTIDOX = "D"
+
+
+
+Stepper.XHY 
+
+
+
+CtrlManual.down_Click()
+ GridView2[3, 0].Text = "----"
+GridView2[3, 1].Text = "----"
+GridView2[3, 2].Text = "----"
+GridView2[3, 3].Text = "----"
+GridView2[3, 4].Text = "DOWN"
+
+
+  Wait 2
+For i = 0 To Variables.FX2.Count - back
+CtrlManual.offtodos_Click()
+
+
+If Variables.FX2[i] = 0 And Variables.FY2[i] = 0 Then 
+
+G = True
+CtrlManual.up_Click()
+
+  Wait 1
+Variables.a = 1
+If GridView2[I + 4 + t, 0].Text <> "" Then
+t = t + 1
+GridView2[I + 4 + t, 0].Text = "----"
+GridView2[I + 4 + t, 1].Text = "----"
+GridView2[I + 4 + t, 2].Text = "----"
+GridView2[I + 4 + t, 3].Text = "----"
+GridView2[I + 4 + t, 4].Text = "UP"
+t = t - 1
+Else
+GridView2[I + 4 + t, 0].Text = "----"
+GridView2[I + 4 + t, 1].Text = "----"
+GridView2[I + 4 + t, 2].Text = "----"
+GridView2[I + 4 + t, 3].Text = "----"
+GridView2[I + 4 + t, 4].Text = "UP"  
+Endif
+ 
+i = i + 1
+
+Else
+G = False
+Variables.a = 0
+Endif
+'/////////////////////////////////
+
+'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+tempp = ((Variables.FX2[i]) - (Variables.FX1[i - Variables.a]))
+If tempp < 0 Then
+
+Variables.SENTIDOX = "A"
+GridView2[I + 4 + t, 1].Text = "A"
+' TEX.Text = "A"
+Else
+
+Variables.SENTIDOX = "D"
+GridView2[I + 4 + t, 1].Text = "D"
+' TEX.Text = "D"
+Endif
+Variables.Xcm = Abs(Tempp)
+Variables.FY12.Add(Abs(Tempp))
+' Xcm.Text = Abs(Tempp)
+ GridView2[I + 4 + t, 0].Text = Abs(Tempp)
+   GridView2[I + 4 + t, 4].Text = "----"
+
+'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Tempp = (Variables.FY2[i] - Variables.FY1[i - Variables.a])
+If tempp < 0 Then
+ Variables.SENTIDOY = "B"
+ GridView2[I + 4 + t, 3].Text = "B"
+' TEY.Text = "B"
+ Else 
+ Tempp = (Variables.FY1[i - Variables.a] - Variables.FY2[i])
+ 
+  Variables.SENTIDOY = "C"
+  GridView2[I + 4 + t, 3].Text = "C"
+'   TEY.Text = "C"
+ Endif
+  Variables.Ycm = Abs(Tempp)
+  Variables.FY12.Add(Abs(Tempp))
+
+'  Ycm.Text = Abs(Tempp)
+If GridView2[I + 3 + t, 4].Text = "UP" Then
+GridView2[I + 4 + t, 0].Foreground = Color.Green
+GridView2[I + 4 + t, 1].Foreground = Color.Green
+GridView2[I + 4 + t, 2].Foreground = Color.Green
+GridView2[I + 4 + t, 3].Foreground = Color.Green
+GridView2[I + 4 + t, 4].Foreground = Color.Green
+  
+Endif
+
+  GridView2[I + 4 + t, 2].Text = Abs(Tempp)
+
+  GridView2[I + 4 + t, 4].Text = "----"
+
+
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+Stepper.XHY
+If G = True Then
+ CtrlManual.down_Click()
+t = t + 1
+GridView2[I + 4 + t, 0].Text = "----"
+GridView2[I + 4 + t, 1].Text = "----"
+GridView2[I + 4 + t, 2].Text = "----"
+GridView2[I + 4 + t, 3].Text = "----"
+GridView2[I + 4 + t, 4].Text = "DOWN"
+
+
+  Wait 3
+Variables.a = 0
+G = False
+Endif
+
+Next
+CtrlManual.offtodos_Click()
+Catch
+CtrlManual.up_Click()
+GridView2[I + 4 + t, 0].Text = "----"
+GridView2[I + 4 + t, 1].Text = "----"
+GridView2[I + 4 + t, 2].Text = "----"
+GridView2[I + 4 + t, 3].Text = "----"
+GridView2[I + 4 + t, 4].Text = "UP"
+GridView2[I + 4 + t, 0].Foreground = Color.red
+GridView2[I + 4 + t, 1].Foreground = Color.red
+GridView2[I + 4 + t, 2].Foreground = Color.red
+GridView2[I + 4 + t, 3].Foreground = Color.red
+GridView2[I + 4 + t, 4].Foreground = Color.red
+
+End
+
+
+
+
+
+
+Public Sub Timer1_Timer()
+Dim segundos As String
+Dim Minutos As String
+segundos = Format$((Stepper.tiempo) - (Stepper.progrest), "00.#")
+Minutos = Format$((Stepper.tiempo / 60) - (Stepper.progrest / 60), "00.##")
+  ProgressBar2.Value = Stepper.progres
+  If ((Stepper.tiempo) - (Stepper.progrest)) < 60 Then
+    Label9.Text = ((segundos) & " Seg")
+    Else
+    Label9.Text = ((Minutos) & " Min")
+  Endif
+
+
+End
+
+
+
+Public Sub Button3_Click()
+
+  MatrisXY.Show
+
+End
+
+Public Sub Cerrar_Click()
+Dim respuesta As Integer
+  respuesta = Message.Question("¿Deseas Cerrar la Ventana Actual?", "Cerrar", "Cancelar")
+  If respuesta = 1 Then
+Me.Close
+  Endif
+ 
+
+End
+
+Public Sub Minimizar_Click()
+ Me.Minimized = True
+ FMain.ShowDialog
+
+End
+

@@ -1,0 +1,102 @@
+' Gambas module file
+
+Public selecttemp As Result
+Public AT As Integer
+
+Public Sub Borrar()
+FMain.pointsArr_x.Clear
+FMain.pointsArr_y.Clear
+End
+Public Sub BorrarTodo()
+
+Dim borrartemp As Result
+FMain.pointsArr_x.Clear
+FMain.pointsArr_y.Clear
+ borrartemp = Mysql.Conexion.Exec("truncate table Graficos_temp")
+
+End
+
+Public Sub IR_ADELANTE()
+Dim selecttx As Result
+Dim selectty As Result
+Dim MatrisCOUNT As Integer 
+Dim i As Integer
+
+MatrisCOUNT = FMain.pointsArr_x.Count
+Borrar
+selecttx = Mysql.Conexion.Exec("select x from Graficos_temp where nombre ='" & FMain.Label8.text & "' ")
+selectty = Mysql.Conexion.Exec("select y from Graficos_temp where nombre ='" & FMain.Label8.text & "' ")
+If MatrisCOUNT < selecttx.Count Then
+For i = 1 To MatrisCOUNT + 1 Step 1
+ FMain.pointsArr_x.Add(selecttx[0])
+ FMain.pointsArr_y.Add(selectty[0])
+selecttx.MoveNext
+selectty.MoveNext
+   Next
+Else
+  For i = 1 To MatrisCOUNT Step 1
+ FMain.pointsArr_x.Add(selecttx[0])
+ FMain.pointsArr_y.Add(selectty[0])
+selecttx.MoveNext
+selectty.MoveNext
+   Next
+Endif
+FMain.dwgGrapharea.Refresh
+
+End
+
+Public Sub IR_ATRAS()
+Dim selecttx As Result
+Dim selectty As Result
+Dim MatrisCOUNT As Integer 
+Dim i As Integer
+
+MatrisCOUNT = FMain.pointsArr_x.Count
+Borrar
+selecttx = Mysql.Conexion.Exec("select x from Graficos_temp where nombre ='" & FMain.Label8.text & "' ")
+selectty = Mysql.Conexion.Exec("select y from Graficos_temp where nombre ='" & FMain.Label8.text & "' ")
+
+For i = 1 To MatrisCOUNT - 1 Step 1
+ FMain.pointsArr_x.Add(selecttx[0])
+ FMain.pointsArr_y.Add(selectty[0])
+selecttx.MoveNext
+selectty.MoveNext
+   Next
+   
+
+FMain.dwgGrapharea.Refresh
+
+End
+Public Sub save()
+Dim saveproyecto As Result
+Dim vaciar As Result
+Dim actualizarf As Result
+Dim i As Integer
+vaciar = Mysql.Conexion.Exec("delete from Graficos where nombre = '" & FMain.Label8.text & "'")
+For i = 0 To FMain.pointsArr_x.Max Step 1
+   saveproyecto = Mysql.Conexion.Exec("Insert into Graficos(x, y,fecha,usuario,nombre) values ('" & FMain.pointsArr_x[i] & "','" & FMain.pointsArr_y[i] & "', Date(Now()),'" & Mysql.Usuarionombre & "','" & FMain.Label8.text & "' )")
+   actualizarf = Mysql.Conexion.Exec("Update Proyecto SET fecha_f=  Date(Now()) where Proyecto_nombre = '" & Mysql.Proyectonombre & "'")
+     Next
+End
+Public Sub borrar_temp()
+  Dim borrartempbd As Result
+  borrartempbd = Mysql.Conexion.Exec("delete from Graficos_temp where nombre = '" & FMain.Label8.text & "'")
+  End
+Public Sub contartemp()
+
+ selecttemp = Mysql.Conexion.Exec("select x from Graficos_temp where nombre = '" & FMain.Label8.text & "' ") 
+
+End
+Public Sub cargartemp()
+Dim insertxy As Result
+Dim f As Integer
+borrar_temp()
+
+ For f = 0 To FMain.pointsArr_x.Count
+insertxy = Mysql.Conexion.Exec("Insert into Graficos_temp(x, y,nombre) values ('" & FMain.pointsArr_x[f] & "','" & FMain.pointsArr_y[f] & "', '" & FMain.Label8.text & "')") 
+Next
+Catch
+End
+
+
+

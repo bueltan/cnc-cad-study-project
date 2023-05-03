@@ -1,0 +1,17 @@
+[Breakpoints]
+Count=0
+
+[DebugWindow]
+Count=0
+
+[OpenFile]
+File[1]=".src/PaintObj.module:0.0"
+File[2]=".src/Calcular.module:0.0"
+File[3]=".src/CtrlManual.form"
+Active=4
+File[4]=".src/CuentasUser.form"
+Count=4
+
+[Watches]
+Count=0
+

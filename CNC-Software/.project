@@ -1,0 +1,18 @@
+# Gambas Project File 3.0
+# Compiled with Gambas 3.5.3
+Title=Cnc-Optimus
+Startup=Login
+Icon=bum.png
+Version=1.0.2
+Component=gb.image
+Component=gb.gui
+Component=gb.form
+Component=gb.data
+Component=gb.db
+Component=gb.db.form
+Component=gb.db.mysql
+Component=gb.desktop
+Description="Trabajo final ITEC N°3 ,Tec Programacion y analisis de sistemas"
+Authors="Denis German Gimenez"
+TabSize=2
+Packager=1

@@ -1,0 +1,31 @@
+' Gambas module file
+
+Public Usuarionombre As String
+Public Proyectonombre As String
+Public Conexion As New Connection
+Public software As String
+Public vercion As String
+Public softwareandvercion As String
+Public Sub CONECTAR_BD()
+'----------------------------------
+software = "OPTIMUS CNCAD "
+vercion = "V:1.01"
+softwareandvercion = software & vercion
+'----------------------------------
+Conexion.Close  
+Conexion.User = "root"
+Conexion.Password = "funckoffx"
+Conexion.Name = "RouterCnc"
+Conexion.Type = "Mysql"
+Conexion.host = "localhost"
+Conexion.Open
+AbrirProyect.DataSource1.Connection = Conexion
+AbrirProyect.DataSource1.Table = ("Proyecto")
+NuevoProyect.DataSource2.Connection = Conexion
+NuevoProyect.DataSource2.Table = ("Proyecto")
+
+End
+Public Sub Cerrar_BD()
+Conexion.Close  
+  End
+

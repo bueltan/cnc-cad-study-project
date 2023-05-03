@@ -1,0 +1,382 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  MoveScaled(0,0,144,103)
+  Background = &H1F1F1F&
+  Foreground = Color.SelectedBackground
+  Border = False
+  { Ventana Menu
+    Text = ("Ventana")
+    { Cerrar Menu
+      Text = ("Cerrar")
+    }
+    { Minimizar Menu
+      Text = ("Minimizar")
+    }
+  }
+  { Panel1 Panel
+    MoveScaled(37,3,106,15)
+    Background = &H1F1F1F&
+    Border = Border.Sunken
+    { !Xcm TextBox
+      MoveScaled(3,5,12,4)
+      #Public = True
+      Background = Color.Foreground
+      Foreground = Color.SelectedBackground
+      Alignment = Align.Center
+    }
+    { Calcular Button
+      MoveScaled(3,10,16,3)
+      Background = Color.ButtonForeground
+      Foreground = Color.LightBackground
+      Text = ("Calcular")
+      Picture = Picture["icon:/small/exec"]
+      Border = False
+    }
+    { label Label
+      MoveScaled(4,1,6,4)
+      Text = ("X cm")
+    }
+    { !TEX TextBox
+      MoveScaled(16,5,4,4)
+      #Public = True
+      Background = Color.Foreground
+      Foreground = Color.SelectedBackground
+      Alignment = Align.Center
+    }
+    { calcularAuto Button
+      MoveScaled(22,10,16,3)
+      Background = Color.LightForeground
+      Text = ("Auto calculo")
+      Picture = Picture["icon:/small/exec"]
+      Border = False
+    }
+    { !Ycm TextBox
+      MoveScaled(22,5,12,4)
+      #Public = True
+      Background = Color.Foreground
+      Foreground = Color.SelectedBackground
+      Alignment = Align.Center
+    }
+    { label2 Label
+      MoveScaled(23,1,6,4)
+      Text = ("Y cm")
+    }
+    { !TEY TextBox
+      MoveScaled(35,5,4,4)
+      #Public = True
+      Background = Color.Foreground
+      Foreground = Color.SelectedBackground
+      Alignment = Align.Center
+    }
+    { !TpMin TextBox
+      MoveScaled(41,5,11,4)
+      #Public = True
+      Background = Color.Foreground
+      Foreground = Color.SelectedBackground
+      Alignment = Align.Center
+    }
+    { label3 Label
+      MoveScaled(41,1,6,4)
+      Text = ("TpMin")
+    }
+    { Timer1 #Timer
+      #MoveScaled(92,4)
+      Enabled = True
+      Delay = 500
+    }
+    { Button3 Button
+      MoveScaled(54,5,5,4)
+      Picture = Picture["icon:/22/text-fill"]
+      Border = False
+    }
+  }
+  { Panel2 Panel
+    MoveScaled(37,18,106,69)
+    Background = &H1F1F1F&
+    Border = Border.Sunken
+    { Label13 Label
+      MoveScaled(5,30,11,3)
+      Foreground = Color.SelectedBackground
+      Text = ("TpMin")
+    }
+    { Label14 Label
+      MoveScaled(27,30,21,3)
+      Foreground = Color.SelectedBackground
+      Text = ("Margen de error en \"CM\"")
+    }
+    { Frame1 Frame
+      MoveScaled(1,1,51,12)
+      Text = ("Σ Px  y  Σ Py  ")
+      { Label4 Label
+        MoveScaled(1,2,22,4)
+        Foreground = Color.SelectedForeground
+        Text = ("Pasos en motor eje \"X\":")
+      }
+      { !Px TextBox
+        MoveScaled(24,2,24,4)
+        #Public = True
+        Background = &H1F1F1F&
+        Foreground = Color.LightBackground
+        Alignment = Align.Center
+        Border = False
+      }
+      { !Py TextBox
+        MoveScaled(24,7,24,4)
+        #Public = True
+        Background = &H1F1F1F&
+        Foreground = Color.LightBackground
+        Alignment = Align.Center
+        Border = False
+      }
+      { Label5 Label
+        MoveScaled(1,7,22,4)
+        Foreground = Color.SelectedForeground
+        Text = ("Pasos en motor eje \"Y\":")
+      }
+    }
+    { Frame2 Frame
+      MoveScaled(53,1,51,12)
+      Text = ("Intérvalos de Tiempo .")
+      { Label6 Label
+        MoveScaled(1,2,22,4)
+        Foreground = Color.SelectedForeground
+        Text = ("Tiempo de duración de Px: ")
+      }
+      { Label7 Label
+        MoveScaled(1,7,22,4)
+        Foreground = Color.SelectedForeground
+        Text = ("Tiempo de duración de Py:")
+      }
+      { !Tpx TextBox
+        MoveScaled(24,2,11,4)
+        #Public = True
+        Background = &H1F1F1F&
+        Foreground = Color.LightBackground
+        Alignment = Align.Center
+        Border = False
+      }
+      { !Tpy TextBox
+        MoveScaled(24,7,11,4)
+        #Public = True
+        Background = &H1F1F1F&
+        Foreground = Color.LightBackground
+        Alignment = Align.Center
+        Border = False
+      }
+    }
+    { Frame3 Frame
+      MoveScaled(1,14,51,12)
+      Text = ("Σ  Tpx y TpY.")
+      { Label11 Label
+        MoveScaled(1,2,6,4)
+        Foreground = Color.SelectedForeground
+        Text = ("Σ TpY: ")
+      }
+      { Label10 Label
+        MoveScaled(1,7,6,4)
+        Foreground = Color.SelectedForeground
+        Text = ("Σ TpX: ")
+      }
+      { !STpx TextBox
+        MoveScaled(24,2,24,4)
+        #Public = True
+        Background = &H1F1F1F&
+        Foreground = Color.LightBackground
+        Alignment = Align.Center
+        Border = False
+      }
+      { !STpy TextBox
+        MoveScaled(24,7,24,4)
+        #Public = True
+        Background = &H1F1F1F&
+        Foreground = Color.LightBackground
+        Alignment = Align.Center
+        Border = False
+      }
+    }
+    { Frame4 Frame
+      MoveScaled(53,14,51,12)
+      Text = ("Desfase en Σ TpX y Σ TpY")
+      { !SfracX TextBox
+        MoveScaled(24,2,24,4)
+        #Public = True
+        Background = &H1F1F1F&
+        Foreground = Color.LightBackground
+        Alignment = Align.Center
+        Border = False
+      }
+      { !SfracY TextBox
+        MoveScaled(24,7,24,4)
+        #Public = True
+        Background = &H1F1F1F&
+        Foreground = Color.LightBackground
+        Alignment = Align.Center
+        Border = False
+      }
+      { Label15 Label
+        MoveScaled(1,2,25,4)
+        Foreground = Color.SelectedForeground
+        Text = ("Tiempo de desfase en Σ TpX: ")
+      }
+      { Label16 Label
+        MoveScaled(1,7,25,4)
+        Foreground = Color.SelectedForeground
+        Text = ("Tiempo de desfase en Σ TpY: ")
+      }
+    }
+    { Frame5 Frame
+      MoveScaled(53,31,51,12)
+      Text = ("Giros de 360° en Mx y My.")
+      { Label17 Label
+        MoveScaled(1,2,22,4)
+        Foreground = Color.SelectedForeground
+        Text = ("Giros en motor \"X\" :")
+      }
+      { Label18 Label
+        MoveScaled(1,7,22,3)
+        Foreground = Color.SelectedForeground
+        Text = ("Giros en motor \"Y\" :")
+      }
+      { !GMy TextBox
+        MoveScaled(24,7,24,4)
+        #Public = True
+        Background = &H1F1F1F&
+        Foreground = Color.LightBackground
+        Alignment = Align.Center
+        Border = False
+      }
+      { !GMx TextBox
+        MoveScaled(24,2,24,4)
+        #Public = True
+        Background = &H1F1F1F&
+        Foreground = Color.LightBackground
+        Alignment = Align.Center
+        Border = False
+      }
+    }
+    { Label12 Label
+      MoveScaled(53,47,27,5)
+      Foreground = Color.SelectedForeground
+      Text = ("Margen de Error en graficacion \nExpresada en \"CM\"")
+    }
+    { !Error TextBox
+      MoveScaled(54,53,24,4)
+      #Public = True
+      Background = &H1F1F1F&
+      Foreground = Color.LightBackground
+      Alignment = Align.Center
+      Border = False
+    }
+    { !GridView1 GridView
+      MoveScaled(1,34,51,30)
+      #Public = True
+      Background = &H1F1F1F&
+      Foreground = Color.LightBackground
+      ScrollBar = Scroll.None
+    }
+  }
+  { Panel3 Panel
+    MoveScaled(0,3,37,84)
+    Background = &H1F1F1F&
+    Border = Border.Sunken
+    { Button5 Button
+      MoveScaled(26,5,5,4)
+      Picture = Picture["icon:/22/make-all"]
+      Border = False
+    }
+    { !Nombres TextBox
+      MoveScaled(2,5,24,4)
+      #Public = True
+      Background = Color.Foreground
+      Foreground = Color.SelectedBackground
+      Alignment = Align.Center
+    }
+    { GridView2 GridView
+      MoveScaled(1,15,35,64)
+      Background = &H1F1F1F&
+      Foreground = Color.LightBackground
+      Mode = Select.Multiple
+      ScrollBar = Scroll.Vertical
+    }
+    { Label20 Label
+      MoveScaled(18,84,24,4)
+      Text = ("Label20")
+    }
+    { Label19 Label
+      MoveScaled(4,11,9,4)
+      Font = Font["AR PL UMing TW MBE"]
+      Text = ("X")
+      Alignment = Align.Center
+    }
+    { Label23 Label
+      MoveScaled(18,11,9,4)
+      Font = Font["AR PL UMing TW MBE"]
+      Text = ("Y")
+      Alignment = Align.Center
+    }
+    { Label24 Label
+      MoveScaled(29,11,6,4)
+      Font = Font["AR PL UMing CN"]
+      Text = ("Z")
+      Alignment = Align.Center
+    }
+    { Separator1 Separator
+      MoveScaled(1,14,35,1)
+      Background = Color.TextForeground
+      Foreground = Color.LightBackground
+    }
+    { Separator3 Separator
+      MoveScaled(1,11,35,1)
+      Background = Color.TextForeground
+      Foreground = Color.LightBackground
+    }
+    { Separator4 Separator
+      MoveScaled(14.875,11,1,3)
+      Background = Color.TextForeground
+      Foreground = Color.LightBackground
+    }
+    { Separator5 Separator
+      MoveScaled(1,11,1,3)
+      Background = Color.TextForeground
+      Foreground = Color.LightBackground
+    }
+    { Separator6 Separator
+      MoveScaled(28.875,11,1,3)
+      Background = Color.TextForeground
+      Foreground = Color.LightBackground
+    }
+    { Separator2 Separator
+      MoveScaled(35,11,1,3)
+      Background = Color.TextForeground
+      Foreground = Color.LightBackground
+    }
+  }
+  { Label8 Label
+    MoveScaled(2,94,24,3)
+    Text = ("Progreso general")
+  }
+  { !ProgressBar2 ProgressBar
+    MoveScaled(1,94,112,3)
+    #Public = True
+    Background = &H175F17&
+    Foreground = Color.TextForeground
+  }
+  { Label9 Label
+    MoveScaled(115,94,24,3)
+  }
+  { Label21 Label
+    MoveScaled(1,91,24,3)
+    Text = ("Progreso")
+  }
+  { Panel5 Panel
+    MoveScaled(0,0,171,3)
+    Background = &H000000&
+    Foreground = &H13369F&
+    { Label22 Label
+      MoveScaled(55,0,29,3)
+      Foreground = Color.SelectedBackground
+      Alignment = Align.Center
+    }
+  }
+}

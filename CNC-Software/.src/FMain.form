@@ -1,0 +1,413 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  MoveScaled(0,0,160,112.5)
+  Background = &H1F1B1B&
+  Text = ("ROUTER CNC OPTIMUS V1.0")
+  Border = False
+  Maximized = True
+  AutoResize = True
+  { Archivo Menu
+    Text = ("Archivo")
+    { Abrir Menu
+      Text = ("Abrir.")
+    }
+    { Guardar Menu
+      Text = ("Guardar.")
+    }
+    { Guardar_como Menu
+      Text = ("Guardar como.")
+    }
+    { Salir Menu
+      Text = ("Salir.")
+    }
+  }
+  { Herramientas Menu
+    Text = ("Herramientas")
+    { Control Menu
+      Text = ("Control Manual.")
+    }
+  }
+  { Ejecutar Menu
+    Text = ("Ejecutar")
+    { Iniciar Menu
+      Text = ("Iniciar proceso de corte.")
+    }
+    { Iniciar2 Menu
+      Text = ("Monitorizar proceso de corte.")
+    }
+  }
+  { CuentasU Menu
+    Text = ("Cuentas de Usuario")
+    { Agregar Menu
+      Text = ("Agregar/quitar")
+    }
+  }
+  { Panel1 Panel
+    MoveScaled(0,13,13,65)
+    Background = &H3F3B37&
+    Border = Border.Sunken
+    { Button1 Button
+      MoveScaled(1,1,5,5)
+      Picture = Picture["icon:/small/jump"]
+    }
+    { Button2 Button
+      MoveScaled(1,6,5,5)
+      Picture = Picture["icon:/small/select"]
+    }
+    { btnClear Button
+      MoveScaled(1,16,5,5)
+      Picture = Picture["icon:/small/clear"]
+    }
+    { Button4 Button
+      MoveScaled(7,1,5,5)
+      Picture = Picture["icon:/small/undo"]
+    }
+    { Button5 Button
+      MoveScaled(7,6,5,5)
+      Picture = Picture["icon:/small/redo"]
+    }
+    { Button6 Button
+      MoveScaled(1,21,5,5)
+      Picture = Picture["icon:/small/lock"]
+    }
+    { Button7 Button
+      MoveScaled(7,11,5,5)
+      Picture = Picture["icon:/small/indent"]
+    }
+    { Button9 Button
+      MoveScaled(7,21,5,5)
+      Picture = Picture["icon:/small/stop"]
+    }
+    { Button10 Button
+      MoveScaled(7,36,5,5)
+      Picture = Picture["icon:/small/options"]
+    }
+    { Separator1 Separator
+      MoveScaled(0,34,13,2)
+    }
+    { Button3 Button
+      MoveScaled(1,36,5,5)
+      Picture = Picture["icon:/small/save"]
+    }
+    { CheckBox1 CheckBox
+      MoveScaled(0,56,13,9)
+      Foreground = &HFFFFFF&
+      Text = ("Mostrar\nsolo los\npuntos.\n")
+    }
+    { Button13 Button
+      MoveScaled(7,42,5,5)
+      Picture = Picture["icon:/32/ok"]
+    }
+    { Button14 Button
+      MoveScaled(1,42,5,5)
+      Picture = Picture["icon:/32/make"]
+    }
+    { Button15 Button
+      MoveScaled(1,26,5,5)
+      Picture = Picture["icon:/small/help"]
+    }
+    { Button8 Button
+      MoveScaled(7,16,5,5)
+      Picture = Picture["icon:/small/pause"]
+    }
+    { CheckBox2 CheckBox
+      MoveScaled(0,48,13,5)
+      Foreground = &HFFFFFF&
+      Text = ("Mostrar\nnumeros\n")
+    }
+    { !soloPunto ToggleButton
+      MoveScaled(1,11,5,5)
+      #Public = True
+      Picture = Picture["icon:/small/record"]
+    }
+    { Button17 Button
+      MoveScaled(7,26,5,5)
+      Picture = Picture["icon:/small/wizard"]
+    }
+  }
+  { TabStrip1 TabStrip
+    MoveScaled(-20,123,33,51)
+    Index = 0
+    Text = ("Dibujar")
+    { cir RadioButton
+      MoveScaled(1,3,11,4)
+      Text = ("Circulo")
+      Value = True
+    }
+    { rec RadioButton
+      MoveScaled(25,3,14,4)
+      Text = ("Rectangulo")
+    }
+    { tri RadioButton
+      MoveScaled(12,3,12,4)
+      Text = ("Triangulo")
+    }
+    { Frame1 Frame
+      MoveScaled(2,10,22,26)
+      Text = ("Uvicacion")
+      { Label2 Label
+        MoveScaled(1,23,3,3)
+        Text = ("X=")
+      }
+      { Label3 Label
+        MoveScaled(12,23,3,3)
+        Text = ("Y=")
+      }
+      { Label4 Label
+        MoveScaled(4,23,7,3)
+      }
+      { Label7 Label
+        MoveScaled(15,23,7,3)
+      }
+      { arriba ToggleButton
+        MoveScaled(8,7,6,5)
+        Picture = Picture["icon:/22/sort-descent"]
+      }
+      { abajo ToggleButton
+        MoveScaled(8,17,6,5)
+        Picture = Picture["icon:/22/sort-ascent"]
+      }
+      { izq ToggleButton
+        MoveScaled(1,12,6,5)
+        Picture = Picture["icon:/22/left"]
+      }
+      { der ToggleButton
+        MoveScaled(15,12,6,5)
+        Picture = Picture["icon:/22/next"]
+      }
+    }
+    { Frame2 Frame
+      MoveScaled(25,10,28,26)
+      Text = ("Dimenciones")
+      { !radio_box TextBox
+        MoveScaled(2,8,20,4)
+        #Public = True
+        Text = ("50")
+        Alignment = Align.Center
+      }
+      { Button11 Button
+        MoveScaled(2,19,13,4)
+        Text = ("Aceptar")
+      }
+      { Label1 Label
+        MoveScaled(2,4,24,4)
+        Text = ("Radio")
+      }
+      { Button12 Button
+        MoveScaled(2,13,13,4)
+        Text = ("Nuevo")
+      }
+      { ComboBox1 ComboBox
+        MoveScaled(16,19,8,4)
+        ReadOnly = True
+        Text = ("0")
+      }
+    }
+    { cur RadioButton
+      MoveScaled(39,3,14,4)
+      Text = ("Curva")
+    }
+    Index = 0
+  }
+  { Timer2 #Timer
+    #MoveScaled(0,81)
+    Enabled = True
+    Delay = 10
+  }
+  { !Timerx #Timer
+    #MoveScaled(0,87)
+    #Public = True
+    Delay = 1
+  }
+  { !Timery #Timer
+    #MoveScaled(6,81)
+    #Public = True
+    Delay = 1
+  }
+  { Panel3 Panel
+    MoveScaled(15,97,140,4)
+    { !error Label
+      MoveScaled(1,0,116,3)
+      #Public = True
+      Foreground = Color.SelectedBackground
+    }
+  }
+  { Panel2 Panel
+    MoveScaled(15,4,144,91)
+    { !Slider1 Slider
+      MoveScaled(-1,7,4,81)
+      #Public = True
+      Foreground = &H9F0027&
+      MaxValue = 640
+    }
+    { !DrawingArea1 DrawingArea
+      MoveScaled(3,7,3,80)
+      #Public = True
+      Font = Font["Monospace,-4"]
+      Background = &H07071F&
+      Border = Border.Sunken
+    }
+    { !DrawingArea2 DrawingArea
+      MoveScaled(6,4,137.5,3)
+      #Public = True
+      Font = Font["Monospace,-4"]
+      Background = &H07071F&
+      Border = Border.Raised
+    }
+    { Label6 Label
+      MoveScaled(3,4,3,3)
+      Font = Font["Monospace"]
+      Background = &H07071F&
+      Foreground = Color.SelectedForeground
+      Text = ("0")
+      Alignment = Align.Center
+    }
+    { Panel4 Panel
+      MoveScaled(3,87,140.5,4)
+      Background = &H000000&
+      Border = Border.Sunken
+      { Label12 Label
+        MoveScaled(4,0,6,4)
+        Foreground = Color.TextBackground
+        Text = ("Eje X:")
+      }
+      { !xText Label
+        MoveScaled(9,0,10,4)
+        #Public = True
+        Foreground = Color.LightBackground
+      }
+      { Label13 Label
+        MoveScaled(17,0,8,4)
+        Foreground = Color.TextBackground
+        Text = ("Eje Y:")
+      }
+      { !yText Label
+        MoveScaled(22,0,5,4)
+        #Public = True
+        Foreground = Color.LightBackground
+      }
+      { Button16 Button
+        MoveScaled(38,0,14,2)
+        Foreground = Color.LightBackground
+        Text = ("Expandir ")
+        Border = False
+      }
+      { TextBox1 TextBox
+        MoveScaled(57,0,11,4)
+        Background = &H3F3F3F&
+        Foreground = Color.SelectedBackground
+        Alignment = Align.Center
+        MaxLength = 5
+        Border = False
+      }
+      { Label15 Label
+        MoveScaled(54,0,3,4)
+        Foreground = Color.LightBackground
+        Text = ("X : ")
+      }
+      { Label16 Label
+        MoveScaled(69,0,2,4)
+        Foreground = Color.LightBackground
+        Text = ("Y : ")
+      }
+      { TextBox2 TextBox
+        MoveScaled(72,0,11,4)
+        Background = &H3F3F3F&
+        Foreground = Color.SelectedBackground
+        Alignment = Align.Center
+        MaxLength = 5
+        Border = False
+      }
+      { Button18 Button
+        MoveScaled(83,0,4,4)
+        Foreground = Color.LightBackground
+        Picture = Picture["icon:/small/ok"]
+        Border = False
+      }
+      { PictureBox1 PictureBox
+        MoveScaled(0,0,3,16)
+      }
+    }
+    { !Slider2 Slider
+      MoveScaled(5,1,139,3)
+      #Public = True
+      Background = &H1F1B1B&
+      Foreground = &H1F1B1B&
+      MaxValue = 1100
+    }
+    { look PictureBox
+      MoveScaled(0,1,3,3)
+      Visible = False
+      Picture = Picture["icon:/22/lock"]
+    }
+    { !dwgGrapharea DrawingArea
+      MoveScaled(6,7,137.5,80)
+      #Public = True
+      Background = &H000000&
+      Mouse = Mouse.Pointing
+      AutoResize = True
+      Spacing = True
+      Border = Border.Sunken
+      Focus = True
+      NoBackground = True
+      { Label14 Label
+        MoveScaled(51,79,24,4)
+        Text = ("Label14")
+      }
+    }
+  }
+  { Panel6 Panel
+    MoveScaled(0,0,156,3)
+    Background = &H000000&
+    Arrangement = Arrange.Horizontal
+    Border = Border.Sunken
+    { Separator4 Separator
+      MoveScaled(14,0,3,6)
+    }
+    { Label10 Label
+      MoveScaled(16,-1,8,4)
+      Foreground = Color.LightBackground
+      Text = ("Usuario:")
+    }
+    { Label11 Label
+      MoveScaled(24,-1,12,4)
+      Foreground = Color.SelectedForeground
+      AutoResize = True
+    }
+    { Separator3 Separator
+      MoveScaled(37,-1,1,6)
+    }
+    { Label5 Label
+      MoveScaled(45,-1,10,4)
+      Foreground = Color.LightBackground
+      Text = ("  Proyecto: ")
+    }
+    { Separator2 Separator
+      MoveScaled(55,-1,1,6)
+    }
+    { !Label8 Label
+      MoveScaled(57,-1,8,4)
+      #Public = True
+      Foreground = Color.SelectedForeground
+      AutoResize = True
+    }
+    { Separator5 Separator
+      MoveScaled(69,0,36,6)
+    }
+    { Label9 Label
+      MoveScaled(92,0,29,3)
+      Foreground = Color.SelectedBackground
+      Text = ("-")
+      Alignment = Align.Center
+    }
+  }
+  { Timer1 #Timer
+    #MoveScaled(7,6)
+    Enabled = True
+    Delay = 100
+  }
+  { Timer3 #Timer
+    #MoveScaled(1,6)
+  }
+}

@@ -1,0 +1,142 @@
+' Gambas module file
+
+Public ix As Integer
+Public iy As Integer
+Public endredx As Integer
+Public endredy As Integer
+
+Public Sub PUNTOS_RED()
+Dim i As Integer
+Dim p As Integer 
+Paint.Begin(FMain.dwgGrapharea)
+For i = 0 To FMain.pointsArr_x.Max
+
+ If FMain.pointsArr_x[i] <> 0 And FMain.pointsArr_y[i] <> 0 Then
+    
+      paint.Brush = paint.Color(Color.Cyan)
+       p = 1
+        
+   
+
+If i = 0 Then
+         p = 2
+         paint.Brush = paint.Color(Color.yellow)
+         
+        Else If i = FMain.pointsArr_x.Max Then
+               p = 2
+               paint.Brush = paint.Color(Color.red)
+
+               Else If FMain.pointsArr_x[i - 1] = 0 And FMain.pointsArr_y[i - 1] = 0 Then
+                     p = 2
+                     paint.Brush = paint.Color(Color.yellow)
+                     
+                 Else If FMain.pointsArr_x[i + 1] = 0 And FMain.pointsArr_y[i + 1] = 0 Then
+                     p = 2
+                     paint.Brush = paint.Color(Color.Green)     
+                     
+                     Endif
+ 
+
+ 
+    Paint.Arc(FMain.pointsArr_x[i], FMain.pointsArr_y[i], p)
+   Paint.Fill
+  Endif
+  
+  Next
+
+Paint.end
+End
+
+Public Sub regla1()
+
+Paint.Begin(FMain.dwgGrapharea)
+ paint.Brush = paint.Color(Color.red)
+  Paint.MoveTo(0, FMain.Slider1.Value)
+Paint.LineTo(1100, FMain.Slider1.Value)
+Paint.stroke
+Paint.end
+End
+Public Sub regla2()
+Paint.Begin(FMain.dwgGrapharea)
+ paint.Brush = paint.Color(Color.blue)
+ Paint.MoveTo(FMain.Slider2.Value, 0)
+Paint.LineTo(FMain.Slider2.Value, 1100)
+Paint.stroke
+Paint.end
+End
+
+Public Sub simular()
+If FMain.Timerx.Enabled = True Then
+Paint.Begin(FMain.dwgGrapharea)
+ paint.Brush = paint.Color(Color.Green)
+   Try Paint.MoveTo(FMain.pointsArr_x[FMain.ti - 1], FMain.pointsArr_y[FMain.ti - 1])
+If FMain.x1x2 > 0 And FMain.y1y2 > 0 Then
+Try Paint.Arc(FMain.pointsArr_x[FMain.ti - 1] + ix, FMain.pointsArr_y[FMain.ti - 1] + iy, 8)
+Endif
+If FMain.x1x2 < 0 And FMain.y1y2 > 0 Then
+Try Paint.Arc(FMain.pointsArr_x[FMain.ti - 1] - ix, FMain.pointsArr_y[FMain.ti - 1] + iy, 8)
+Endif
+If FMain.x1x2 > 0 And FMain.y1y2 < 0 Then
+Try Paint.Arc(FMain.pointsArr_x[FMain.ti - 1] + ix, FMain.pointsArr_y[FMain.ti - 1] - iy, 8)
+Endif
+If FMain.x1x2 < 0 And FMain.y1y2 < 0 Then
+Try Paint.Arc(FMain.pointsArr_x[FMain.ti - 1] - ix, FMain.pointsArr_y[FMain.ti - 1] - iy, 8)
+If Error Then FMain.error.Text = "Se recomienda verificar el diseño"
+Endif
+If FMain.lyup = True Then
+Try Paint.Arc(FMain.pointsArr_y[FMain.ti - 1] - iy, 8)
+FMain.lyup = False
+Endif
+Paint.Fill
+Paint.end
+End If
+End
+
+
+Public Sub reglax()
+Paint.Begin(FMain.DrawingArea2)
+ paint.Brush = paint.Color(Color.blue)
+ Paint.MoveTo(FMain.Slider2.Value, 0)
+Paint.LineTo(FMain.Slider2.Value, 1700)
+Paint.stroke
+Paint.end
+End
+Public Sub reglay()
+Paint.Begin(FMain.DrawingArea1)
+ paint.Brush = paint.Color(Color.red)
+ Paint.MoveTo(0, FMain.Slider1.Value)
+Paint.LineTo(1700, FMain.Slider1.Value)
+Paint.stroke
+Paint.end
+End
+Public Sub lineas_rectas()
+ Dim insertxy As Result
+ If FMain.Slider2.Value = 0 And FMain.Slider1.Value = 0 Then
+ Else
+      If FMain.Enable = True Then
+       If FMain.solopunto.Value = True And FMain.pointsArr_x.Max <> -1 Then
+       FMain.Button1_Click() 
+       Endif 
+
+          If FMain.pointsArr_x.Count <> 0 Then
+            If FMain.Slider2.Value <> FMain.pointsArr_x[FMain.pointsArr_x.Max] Or FMain.Slider1.Value <> FMain.pointsArr_y[FMain.pointsArr_y.Max] Then
+               FMain.pointsArr_x.Add(FMain.Slider2.Value)
+               FMain.pointsArr_y.Add(FMain.Slider1.Value)
+               FMain.xText.Text = ((FMain.Slider2.Value / 2) / 10)
+               FMain.ytext.Text = ((FMain.Slider1.Value / 2) / 10)
+               insertxy = Mysql.Conexion.Exec("Insert into Graficos_temp(x, y,nombre) values ('" & FMain.Slider2.Value & "','" & FMain.Slider1.Value & "', '" & FMain.Label8.text & "')") 
+               FMain.dwgGrapharea.Refresh
+               Endif
+      Else
+           FMain.pointsArr_x.Add(FMain.Slider2.Value)
+           FMain.pointsArr_y.Add(FMain.Slider1.Value)
+           FMain.xText.Text = ((FMain.Slider2.Value / 2) / 10)
+           FMain.ytext.Text = ((FMain.Slider1.Value / 2) / 10)
+           insertxy = Mysql.Conexion.Exec("Insert into Graficos_temp(x, y,nombre) values ('" & FMain.Slider2.Value & "','" & FMain.Slider1.Value & "', '" & FMain.Label8.text & "')") 
+           FMain.dwgGrapharea.Refresh 
+        Endif
+     
+      Endif
+ Endif
+End
+

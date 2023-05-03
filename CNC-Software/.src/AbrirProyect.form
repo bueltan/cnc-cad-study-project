@@ -1,0 +1,208 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  Move(300,300,696,400)
+  #Scaled = False
+  Background = &H3F3F3F&
+  Foreground = Color.SelectedBackground
+  Text = ("Abrir")
+  Resizable = False
+  Border = False
+  { !DataSource1 DataSource
+    Move(0,24,360,352)
+    #Public = True
+    Font = Font["-1"]
+    Table = "Proyecto"
+    { DataControl4 DataControl
+      Move(336,200,8,8)
+      Field = "Public"
+    }
+    { buss TextBox
+      Move(8,24,328,24)
+      Font = Font["-2"]
+      Background = &H1F1F1F&
+      Foreground = &HBFBFBF&
+      Text = ("Buscar")
+      Alignment = Align.Center
+      MaxLength = 20
+      Border = False
+    }
+    { DataControl1 DataControl
+      Move(336,200,8,8)
+      Field = "Proyecto_nombre"
+    }
+    { DataControl3 DataControl
+      Move(336,200,8,8)
+      Field = "fecha_f"
+    }
+    { DataControl2 DataControl
+      Move(336,200,8,8)
+      Field = "fecha_i"
+    }
+    { DataBrowser1 DataBrowser
+      Move(8,72,328,280)
+      Font = Font["-1"]
+      Background = &H1F1F1F&
+      Foreground = &HFFFFFF&
+      Mouse = Mouse.Pointing
+      Control = False
+      CanCreate = False
+      CanDelete = False
+      Columns = ["Proyecto_nombre"]
+      Labels = ["Graficos"]
+      Header = False
+      Grid = True
+      Orientation = Align.Left
+      Border = False
+    }
+    { ToggleButton2 ToggleButton
+      Move(168,48,160,24)
+      Font = Font["-3"]
+      Text = ("SOLO LOS MIOS")
+      Border = False
+    }
+    { ToggleButton1 ToggleButton
+      Move(8,48,160,24)
+      Font = Font["-3"]
+      Text = ("VER TODOS")
+      Border = False
+    }
+  }
+  { abrir Button
+    Move(360,304,160,32)
+    Foreground = Color.LightBackground
+    Text = ("Abrir")
+  }
+  { cerrar Button
+    Move(520,336,152,32)
+    Text = ("Cancelar")
+  }
+  { ProgressBar1 ProgressBar
+    Move(360,376,312,16)
+    Visible = False
+  }
+  { Panel1 Panel
+    Move(0,0,696,40)
+    Background = Color.Foreground
+    Border = Border.Raised
+    { Label3 Label
+      Move(624,0,72,40)
+      Background = &H1F1F1F&
+    }
+    { Button2 Button
+      Move(632,8,24,24)
+      Foreground = &H13139F&
+      Text = ("_")
+    }
+    { Button1 Button
+      Move(664,8,24,24)
+      Foreground = &H13139F&
+      Text = ("X")
+    }
+    { Label4 Label
+      Move(8,0,64,40)
+      Foreground = Color.LightBackground
+      Text = ("Usuario:")
+    }
+    { Label5 Label
+      Move(72,0,192,40)
+      Foreground = &HFFFFFF&
+    }
+    { Label2 Label
+      Move(40,0,624,40)
+      Text = ("ABRIR PROYECTO")
+      Alignment = Align.Center
+    }
+  }
+  { Separator1 Separator
+    Move(328,56,24,320)
+  }
+  { PictureBox1 PictureBox
+    Move(440,112,184,160)
+    Picture = Picture["icon:/128/desktop"]
+  }
+  { Timer1 #Timer
+    #Move(448,40)
+    Delay = 15
+  }
+  { Timer2 #Timer
+    #Move(496,40)
+    Delay = 1
+  }
+  { P1 Panel
+    Move(360,72,312,56)
+    Background = &H5F5F5F&
+    Border = Border.Sunken
+    { !L2 Label
+      Move(8,24,296,32)
+      #Public = True
+      Visible = False
+      Foreground = Color.TextBackground
+    }
+    { L1 Label
+      Move(8,0,296,32)
+      Visible = False
+      Foreground = Color.SelectedBackground
+      Text = ("NOMBRE")
+    }
+  }
+  { P2 Panel
+    Move(360,128,312,56)
+    Background = &H7F7F7F&
+    Border = Border.Sunken
+    { L3 Label
+      Move(8,0,328,32)
+      Visible = False
+      Foreground = Color.LightBackground
+      Text = ("FECHA DE CRACION:")
+    }
+    { L4 Label
+      Move(8,24,296,32)
+      Visible = False
+      Foreground = Color.SelectedForeground
+    }
+  }
+  { P3 Panel
+    Move(360,184,312,56)
+    Background = &H5F5F5F&
+    Border = Border.Sunken
+    { L5 Label
+      Move(8,0,328,32)
+      Visible = False
+      Text = ("FECHA DE MODIFICACION:")
+    }
+    { L6 Label
+      Move(8,24,296,32)
+      Visible = False
+      Foreground = Color.TextBackground
+    }
+  }
+  { P4 Panel
+    Move(360,240,312,56)
+    Background = &H7F7F7F&
+    Border = Border.Sunken
+    { C1 CheckBox
+      Move(8,8,280,40)
+      Visible = False
+      Foreground = Color.LightBackground
+      Text = ("PUBLICO")
+    }
+    { Label1 Label
+      Move(8,8,192,40)
+    }
+  }
+  { Timer3 #Timer
+    #Move(544,32)
+    Delay = 1
+  }
+  { abrir2 Button
+    Move(520,304,152,32)
+    Foreground = Color.LightBackground
+    Text = ("Abrir archivo")
+  }
+  { cerrar2 Button
+    Move(360,336,160,32)
+    Foreground = Color.LightBackground
+    Text = ("Nuevo")
+  }
+}

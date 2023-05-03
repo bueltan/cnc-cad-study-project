@@ -1,0 +1,57 @@
+' Gambas class file
+
+
+
+Public Sub Form_Open()
+
+
+CtrlManual.puerto = Open "/dev/port" For Write
+CtrlManual.Timer1_Timer()
+CtrlManual.offtodos_Click()
+CtrlManual.stop_Click()
+  Me.Center
+Mysql.CONECTAR_BD()
+Label2.Text = Mysql.softwareandvercion
+End
+Public Sub Button1_Click()
+Me.Close
+End
+
+Public Sub Button2_Click()
+Me.Minimized = True
+End
+
+Public Sub TextBox1_Change()
+Dim verificar As Result
+ verificar = Mysql.Conexion.Exec("Select NOMBRE from Usuario where NOMBRE = '" & TextBox1.Text & "'")
+ If verificar.Count <> 0 Then
+ Label1.Text = "CONTRASEÑA"
+ TextBox2.Visible = True
+TextBox2.SetFocus
+passview.Visible = True
+  nombre.Text = verificar[0]
+Mysql.Usuarionombre = verificar[0]
+   Endif
+ End
+ Public Sub TextBox2_Change()
+Dim verificarP As Result
+If TextBox2.Text = "" Then
+passview.Enabled = False
+Else
+  passview.Enabled = True
+Endif
+  verificarP = Mysql.Conexion.Exec("Select PASS from Usuario where PASS = '" & TextBox2.Text & "'")
+   If verificarP.Count <> 0 Then
+     Mysql.Cerrar_BD
+ AbrirProyect.Show
+ Me.Close
+ Endif
+ End
+
+Public Sub passview_Click()
+If passview.Value = True Then 
+  TextBox2.Password = False
+  Else
+    TextBox2.Password = True
+Endif
+End

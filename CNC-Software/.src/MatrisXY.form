@@ -1,0 +1,54 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  MoveScaled(0,0,34,75)
+  Background = &H000000&
+  Foreground = Color.LightBackground
+  Border = False
+  { Ventana Menu
+    Text = ("Ventana")
+    { Cerrar Menu
+      Text = ("Cerrar")
+    }
+    { minimizar Menu
+      Text = ("Minimizar")
+    }
+  }
+  { ListBox1 ListBox
+    MoveScaled(1,9,9,64)
+    Background = &H1F1F1F&
+    Foreground = Color.LightBackground
+  }
+  { ListBox2 ListBox
+    MoveScaled(10,9,10,64)
+    Background = &H1F1F1F&
+    Foreground = Color.LightBackground
+  }
+  { ListBox3 ListBox
+    MoveScaled(21,9,12,64)
+    Background = &H1F1F1F&
+    Foreground = Color.LightBackground
+  }
+  { Button1 Button
+    MoveScaled(4,1,9,4)
+    Picture = Picture["icon:/22/apply"]
+  }
+  { Label1 Label
+    MoveScaled(3,6,8,4)
+    Foreground = Color.SelectedBackground
+    Text = ("X")
+    Alignment = Align.Center
+  }
+  { Label2 Label
+    MoveScaled(11,6,8,4)
+    Foreground = Color.SelectedBackground
+    Text = ("Y")
+    Alignment = Align.Center
+  }
+  { Label3 Label
+    MoveScaled(22,6,8,4)
+    Foreground = Color.SelectedBackground
+    Text = ("X and Y")
+    Alignment = Align.Center
+  }
+}

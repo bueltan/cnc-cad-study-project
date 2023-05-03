@@ -1,0 +1,718 @@
+' Gambas class file
+
+'Library "libgsl:0"
+Public Enable As Boolean
+Public pointsArr_x As New Float[]
+Public pointsArr_y As New Float[]
+Public simular As Boolean 
+Public pause As Boolean
+Public posx As Float
+Public posy As Float
+Public a As Integer
+Public radio As Float
+Public maxx As Integer 
+Public num_mas As Integer
+Public num_menos As Integer
+Public XAXB As Integer
+Public YAYB As Integer
+Public x1x2 As Integer
+Public y1y2 As Integer
+Public cx As Integer
+Public maxpoin As Boolean
+Public ti As Integer
+Public lxizq As Boolean
+Public lxdercha As Boolean
+Public lyup As Boolean
+Public lydown As Boolean
+Public miCaptura As New Picture
+Public puntoselect As Integer 
+
+Public Sub dwgGrapharea_Draw()
+Dim i As Integer
+Dim g As Integer
+Dim a As Integer
+Dim b As Integer
+Dim L As Integer
+If button1.Border = False Then 
+   Button1.Border = True
+    Button17.Enabled = True
+ dwgGrapharea.Mouse = Mouse.Pointing
+Endif
+
+Paint.LineWidth = 0.2
+paint.Brush = paint.Color(Color.DarkGreen)
+
+For g = 1 To 33 Step 1
+ Paint.MoveTo(0, a)
+Paint.LineTo(1100, a)
+a = a + 20
+Next
+Paint.Stroke
+For g = 1 To 56 Step 1
+ Paint.MoveTo(b, 0)
+Paint.LineTo(b, 640)
+b = b + 20
+Next
+Paint.Stroke
+
+
+If CheckBox1.Value = False Then
+    paint.Brush = paint.Color(Color.White)
+   
+   Paint.LineWidth = 1
+   paint.Font.Size = 10
+  For i = 0 To pointsArr_x.Max
+     If i = 0 Then
+     Paint.MoveTo(pointsArr_x[i], pointsArr_y[i])
+Endif
+
+  If pointsArr_x[i] = 00 And pointsArr_y[i] = 00 Then
+  i = i + 1
+
+  Try Paint.MoveTo(pointsArr_x[i], pointsArr_y[i]) 
+  End If
+ 
+  Try Paint.LineTo(pointsArr_x[i], pointsArr_y[i])
+
+   Next
+
+  paint.Stroke
+
+If CheckBox2.Value = True Then
+   'numeros
+   For i = 0 To pointsArr_x.Max
+     If pointsArr_x[i] = 0 And pointsArr_y[i] = 0 Then
+      L = L + 1
+          Else
+         paint.Text(i + 1 - L, pointsArr_x[i], pointsArr_y[i] - 8)
+    Endif
+   Next
+  paint.Fill
+  
+   Endif
+
+End If
+
+ PaintObj.PUNTOS_RED()
+If simular = True Then
+ PaintObj.cncsimulator
+ End If
+PaintObj.regla1
+PaintObj.regla2
+PaintObj.simular
+
+
+End
+
+Public Sub Button1_Click()
+
+Dim cero As Integer 
+cero = 00
+If (pointsArr_x.Max <> 00 And pointsArr_y.Max <> 00) And Button1.Border = True Then
+    If pointsArr_x[pointsArr_x.Max] <> 0 And pointsArr_y[pointsArr_y.Max] <> 0 Then
+    pointsArr_x.Add(00)
+    pointsArr_y.Add(00)
+    Button1.Border = False
+    dwgGrapharea.Mouse = Mouse.Cross
+    Button17.Enabled = False
+    Else
+      dwgGrapharea.Mouse = Mouse.Pointing 
+    Endif
+Else
+pointsArr_x.Remove(pointsArr_y.Max)
+pointsArr_y.Remove(pointsArr_y.Max)
+ Button1.Border = True
+Button17.Enabled = True
+dwgGrapharea.Mouse = Mouse.Pointing
+Endif
+ Catch
+End
+
+
+
+Public Sub btnClear_Click()
+ pointsArr_x.Clear
+   pointsArr_y.Clear
+ 
+  ' ListBox1.Clear
+ bdArray.BorrarTodo
+   dwgGrapharea.Refresh
+a Timerx.Enabled = False
+Timery.Enabled = False
+PaintObj.ix = 0
+PaintObj.iy = 0
+ti = 0
+cx = 0
+FMain.maxpoin = False
+
+End
+
+Public Sub btnClose_Click()
+
+  Me.Close
+
+End
+
+
+
+
+
+Public Sub Form_Open()
+Label9.Text = Mysql.softwareandvercion
+a = 0
+simular = False
+'bdArray.BorrarTodo
+  Button8.Enabled = False
+Button9.Enabled = False
+dwgGrapharea.Margin = True
+dwgGrapharea.Refresh
+DrawingArea1.Refresh
+Label8.Text = Mysql.Proyectonombre
+Label11.Text = Mysql.Usuarionombre
+Enable = True
+Try CtrlManual.puerto = Open "/dev/port" For Write
+CtrlManual.Timer1_Timer()
+Variables.cmv = 7
+DrawingArea1.SetFocus
+End
+
+
+Public Sub Button9_Click()
+Timerx.Enabled = False
+Timery.Enabled = False
+PaintObj.ix = 0
+PaintObj.iy = 0
+ti = 0
+cx = 0
+btnClear.Enabled = True
+Button4.Enabled = True
+Button5.Enabled = True
+Button8.Enabled = False
+Button9.Enabled = False
+End
+
+Public Sub Guardar_Click()
+bdArray.save
+End
+
+Public Sub Button4_Click()
+  bdArray.contartemp
+If bdArray.selecttemp.Count < pointsArr_x.Count Or bdArray.selecttemp.Count = pointsArr_x.Count Then
+ bdArray.cargartemp()
+Endif
+
+If bdArray.selecttemp.Count = 0 Then
+  Else
+  bdArray.IR_ATRAS
+Endif
+
+End
+
+Public Sub Button5_Click()
+bdArray.contartemp
+If bdArray.selecttemp.Count = 0 Then
+  Else
+bdArray.IR_ADELANTE
+Endif
+
+
+End
+
+
+
+Public Sub Slider1_Change()
+
+dwgGrapharea.Refresh
+DrawingArea1.Refresh
+
+End
+
+Public Sub Slider2_Change()
+dwgGrapharea.Refresh
+DrawingArea2.Refresh
+End
+
+
+
+Public Sub Button7_Click()
+Button8.Enabled = True
+Button9.Enabled = True
+ If ti <> pointsArr_x.Max And FMain.pointsArr_y.Count <> 1 Then
+  Button4.Enabled = False
+  Button5.Enabled = False
+  btnClear.Enabled = False
+   If FMain.pointsArr_x[ti + 1] = 00 Then ti = ti + 2
+PaintObj.ix = 0
+PaintObj.iy = 0
+cx = 0
+
+'---------------------------------------------------------------------------------------------------------------------
+If FMain.pointsArr_x[ti] = FMain.pointsArr_x[ti + 1] And FMain.pointsArr_y[ti] <> FMain.pointsArr_y[ti + 1] Then
+  If FMain.pointsArr_y[ti] > FMain.pointsArr_y[ti + 1] Then
+  Message.Info("vamos bien esto es una linea vertical hacia arriba ")
+
+  
+  Else 
+  Message.Info("vamos bien esto es una linea vertical hacia la abajo ")
+  lydown = True
+
+  Endif
+
+Endif
+'---------------------------------------------------------------------------------------------------------------------
+If FMain.pointsArr_y[ti] = FMain.pointsArr_y[ti + 1] And FMain.pointsArr_x[ti] <> FMain.pointsArr_x[ti + 1] Then
+    If FMain.pointsArr_x[ti] > FMain.pointsArr_x[ti + 1] Then
+  Message.Info("vamos bien esto es una linea horizontal hacia izquierda ")
+
+  Else 
+  Message.Info("vamos bien esto es una linea horizontal hacia la derecha ")
+
+Endif
+
+Endif
+
+ If FMain.pointsArr_x[ti] < FMain.pointsArr_x[ti + 1] Then
+    XAXB = FMain.pointsArr_x[ti + 1] - FMain.pointsArr_x[ti]
+    x1x2 = FMain.pointsArr_x[ti + 1] - FMain.pointsArr_x[ti]
+    Else
+     XAXB = FMain.pointsArr_x[ti] - FMain.pointsArr_x[ti + 1]
+      x1x2 = FMain.pointsArr_x[ti + 1] - FMain.pointsArr_x[ti]
+Endif
+If FMain.pointsArr_y[ti] < FMain.pointsArr_y[ti + 1] Then
+    YAYB = FMain.pointsArr_y[ti + 1] - FMain.pointsArr_y[ti]
+    y1y2 = FMain.pointsArr_y[ti + 1] - FMain.pointsArr_y[ti]
+    Else
+    YAYB = FMain.pointsArr_y[ti] - FMain.pointsArr_y[ti + 1]
+    y1y2 = FMain.pointsArr_y[ti + 1] - FMain.pointsArr_y[ti]
+Endif
+If XAXB > YAYB Then
+Timerx.Delay = 50
+Try Timery.Delay = (50 * XAXB) / YAYB
+Timerx.Enabled = True
+Timery.Enabled = True
+Else
+Timery.Delay = 50
+Try Timerx.Delay = (50 * YAYB) / XAXB
+Timerx.Enabled = True
+Timery.Enabled = True
+Endif
+'///////////////////////////////
+ti = ti + 1 
+If Error Then 
+Button7_Click()
+
+Else
+maxpoin = False
+Endif
+Else
+Endif
+'Catch
+
+End
+
+
+
+Public Sub Timerx_Timer()
+cx = cx + 1
+If cx = XAXB Then
+Timerx.Enabled = False 
+Timery.Enabled = False   
+PaintObj.ix = 0
+PaintObj.iy = 0
+ Button4.Enabled = True
+  Button5.Enabled = True
+    btnClear.Enabled = True
+     Button8.Enabled = False
+'Button9.Enabled = False
+If ti <> FMain.pointsArr_x.Max Then
+ Button7_Click 
+ Else
+ Button9_Click
+Endif
+If ti = FMain.pointsArr_x.Max + 1 Then 
+ti = 0
+
+Endif
+Else
+PaintObj.ix = PaintObj.ix + 1
+dwgGrapharea.Refresh
+Endif
+pause = False
+End
+Public Sub Timery_Timer()
+PaintObj.iy = PaintObj.iy + 1
+dwgGrapharea.Refresh
+End
+
+
+Public Sub Button8_Click()
+
+Timerx.Enabled = False
+TimerY.Enabled = False
+
+End
+
+Public Sub Button3_Click()
+bdArray.save
+End
+
+Public Sub DrawingArea2_Draw()
+Dim i As Integer
+Dim a As Integer
+
+paint.Brush = paint.Color(Color.White)
+
+For i = 0 To 55 Step 1
+  a = a + 20
+ paint.Text(i + 1, 0 + a, 15)
+Next
+Paint.fill
+PaintObj.reglax
+
+End
+
+Public Sub DrawingArea1_Draw()
+Dim i As Integer
+Dim a As Integer
+paint.Brush = paint.Color(Color.White)
+For i = 0 To 55 Step 1
+  a = a + 20
+ paint.Text(i + 1, 5, 0 + a)
+Next
+Paint.fill
+  PaintObj.reglay
+End
+
+
+
+Public Sub Panel5_MouseMove()
+
+FMain.X = (Mouse.ScreenX)
+ Wait 0.002
+FMain.Y = (Mouse.ScreenY)
+
+End
+
+
+Public Sub ToggleButton2_Click()
+
+  Me.Minimized = True
+
+End
+
+
+Public Sub ToggleButton3_Click()
+If FMain.FullScreen = False Then
+FMain.Border = False 
+Else
+FMain.Border = True
+FMain.FullScreen = False
+Endif
+End
+
+
+
+
+Public Sub Button6_Click()
+If Enable = False Then
+  Enable = True
+  look.Visible = False
+  Button17.Enabled = True
+  Button4.Enabled = True
+  Button5.Enabled = True
+  Else
+      Button4.Enabled = False
+      Button5.Enabled = False
+    Enable = False
+    look.Visible = True
+    Button17.Enabled = False
+Endif
+
+End
+Public Sub dwgGrapharea_MouseUp()
+
+
+Dim actualizartemp As Result
+If Enable = True Then
+
+
+Try actualizartemp = Mysql.Conexion.Exec("Update Graficos_temp SET x= '" & pointsArr_x[pointsArr_x.Max] & "', y= '" & pointsArr_y[pointsArr_y.Max] & "'  where  nombre = '" & FMain.Label8.text & "' ORDER BY id DESC LIMIT 1 ")
+
+   If (Mouse.X > 0 And Mouse.X < 1100) And (Mouse.Y > 0 And Mouse.Y < 640) Then 
+
+ If FMain.solopunto.Value = True And pointsArr_x.Max <> -1 Then
+       FMain.Button1_Click() 
+       Endif 
+   If pointsArr_x.Count <> 0 Then
+       If Mouse.X <> pointsArr_x[pointsArr_x.Max] Or Mouse.Y <> pointsArr_y[pointsArr_y.Max] Then
+          pointsArr_x.Add(Mouse.X)
+          pointsArr_y.Add(Mouse.Y)
+        
+          xText.Text = ((Mouse.X / 2) / 10)
+          yText.Text = ((Mouse.y / 2) / 10)
+          dwgGrapharea.Refresh
+          Endif
+   Else
+       pointsArr_x.Add(Mouse.X)
+       pointsArr_y.Add(Mouse.Y)
+       bdArray.cargartemp()
+       xText.Text = ((Mouse.X / 2) / 10)
+       yText.Text = ((Mouse.y / 2) / 10)
+       dwgGrapharea.Refresh
+
+   Endif
+
+   Endif
+
+Endif
+
+End
+
+Public Sub Button2_Click()
+PaintObj.lineas_rectas()
+End
+Public Sub Button10_Click()
+  CtrlManual.ShowDialog
+End
+
+
+Public Sub Timer3_Timer()
+PaintObj.iy = PaintObj.iy - 1
+dwgGrapharea.Refresh
+End
+
+Public Sub Button13_Click()
+bdArray.save
+Calcular.CNCBEGIN()
+End
+
+
+Public Sub CheckBox2_Click()
+dwgGrapharea.Refresh
+
+End
+
+Public Sub CheckBox1_Click()
+dwgGrapharea.Refresh
+End
+
+Public Sub Button16_Click()
+If Panel1.Visible = True Then
+  Panel1.Visible = False
+  Panel2.X = 0
+  Button16.Text = "Contraer"
+  Else
+  Panel1.Visible = True
+   Panel2.X = 120
+     Button16.Text = "Expandir"
+Endif
+End
+
+Public Sub Button15_Click()
+
+End
+
+Public Sub Button14_Click()
+bdArray.save
+MonitorizarCalc.ShowDialog
+End
+
+
+Public Sub Calibrar_Click()
+
+  
+
+End
+
+Public Sub Guardar_como_Click()
+Dim i As Integer
+Dim datos As New String[]
+Dim proyecto As String
+Dim dirr As String
+
+proyecto = ""
+datos.Clear
+datos.Add(Mysql.Usuarionombre)
+datos.Add(Mysql.Proyectonombre)
+proyecto = datos.Join("/")
+Dialog.Title = "Seleccionar directorio"
+AbrirProyect.xx.Clear
+AbrirProyect.yy.Clear
+AbrirProyect.contenidox = ""
+AbrirProyect.contenidox = ""
+For i = 0 To FMain.pointsArr_x.Max
+  AbrirProyect.xx.Add(CStr(FMain.pointsArr_x[i]))
+  AbrirProyect.yy.Add(CStr(FMain.pointsArr_y[i]))
+Next
+
+AbrirProyect.contenidox = AbrirProyect.xx.Join("-") 
+ AbrirProyect.contenidoy = AbrirProyect.yy.Join("-")
+Dialog.Filter = ["*.cnc", "Archivo CNCAD"]
+  If Dialog.SaveFile() Then Return
+  dirr = Replace$(Dialog.Path, ".cnc", "")
+
+ 
+File.Save(dirr & ".cnc", proyecto)
+File.Save(dirr & ".cncx", AbrirProyect.contenidox)
+ File.Save(dirr & ".cncy", AbrirProyect.contenidoy)
+
+Catch
+  Message.Warning(ERROR.Text)
+
+
+End
+
+Public Sub Abrir_Click()
+
+  AbrirProyect.ShowDialog
+
+End
+
+Public Sub Control_Click()
+
+ CtrlManual.ShowDialog
+
+End
+
+Public Sub Salir_Click()
+
+Select Message.Question("¿ Desea guardar los cambios ? ", " Sí", "No", "Cancelar")
+Case 1
+bdArray.save
+Me.Close
+Case 2
+CtrlManual.offtodos_Click()
+CtrlManual.stop_Click()
+    Me.CLOSE
+Case 3
+   End Select
+
+End
+
+Public Sub Button17_Click()
+If Enable = False Then 
+   dwgGrapharea.Mouse = Mouse.Pointing
+ Enable = True
+ button1.Enabled = True
+ Button2.Enabled = True
+ Button17.Border = True
+ Else 
+  Enable = False
+  button1.Enabled = False
+   Button17.Border = False
+    Button2.Enabled = False
+  dwgGrapharea.Mouse = Mouse.Vertical
+Endif
+
+End
+
+Public Sub TextBox1_Change()
+
+ Slider2.Value = ((TextBox1.Text * 10) * 2)
+Catch 
+Slider2.Value = 0
+End
+
+
+Public Sub TextBox2_Change()
+
+ Slider1.Value = ((TextBox2.Text * 10) * 2)
+ Catch
+Slider1.Value = 0
+End
+
+Public Sub Button18_Click()
+
+  PaintObj.lineas_rectas()
+
+End
+
+Public Sub Iniciar_Click()
+
+  bdArray.save
+Calcular.CNCBEGIN()
+
+End
+
+Public Sub Iniciar2_Click()
+
+bdArray.save
+MonitorizarCalc.ShowDialog
+
+End
+
+Public Sub Agregar_Click()
+
+  CuentasUser.ShowDialog
+
+End
+
+Public Sub dwgGrapharea_MouseMove()
+
+ If Enable = True Then
+ If pointsArr_x[pointsArr_x.Max] <> 0 And pointsArr_y[pointsArr_y.Max] <> 0 Then
+ If (Mouse.X > 0 And Mouse.X < 1100) And (Mouse.Y > 0 And Mouse.Y < 640) Then 
+pointsArr_x[pointsArr_x.Max] = Mouse.x 
+pointsArr_y[pointsArr_y.Max] = Mouse.y
+dwgGrapharea.Refresh
+DrawingArea1.Refresh
+xText.Text = ((Mouse.X / 2) / 10)
+ yText.Text = ((Mouse.y / 2) / 10)
+ Endif
+ 
+
+
+Endif
+
+ Else If Button17.Enabled = True And Enable = False Then
+
+ If (Mouse.X > 0 And Mouse.X < 1100) And (Mouse.Y > 0 And Mouse.Y < 640) Then 
+      pointsArr_x[puntoselect] = Mouse.x 
+      pointsArr_y[puntoselect] = Mouse.y
+      dwgGrapharea.Refresh
+      DrawingArea1.Refresh
+      xText.Text = ((Mouse.X / 2) / 10)
+      yText.Text = ((Mouse.y / 2) / 10)
+      TextBox1.Text = pointsArr_x[puntoselect] / 20
+      TextBox2.Text = pointsArr_y[puntoselect] / 20
+      Endif
+Endif
+Catch
+End
+
+
+
+Public Sub dwgGrapharea_KeyPress()
+  If Key.Code = Key.Enter Then 
+   dwgGrapharea_MouseUp()
+  End If
+  
+
+End
+
+
+
+
+
+Public Sub dwgGrapharea_MouseDown()
+Dim I As Integer
+ If Button17.Enabled = True And Enable = False Then
+
+For I = 0 To pointsArr_x.Max
+
+ If (pointsArr_x[I] < Mouse.X + 10 And pointsArr_x[I] > Mouse.X - 10) And (pointsArr_y[I] < Mouse.y + 10 And pointsArr_y[I] > Mouse.y - 10) Then 
+ puntoselect = i
+ TextBox1.Text = pointsArr_x[I] / 20
+ TextBox2.Text = pointsArr_y[I] / 20
+ Endif
+ Next
+ Endif
+End
+
+
+
+
+
+
+
+

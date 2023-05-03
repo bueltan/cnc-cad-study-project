@@ -1,0 +1,188 @@
+' Gambas class file
+
+Public Selectt As Result
+Public Sub Form_Open()
+Try Mysql.CONECTAR_BD
+Nuevo.SetFocus
+Me.Center
+P1.Y = -180
+P4.Y = -60
+DataBrowser1_MouseDown
+Label1.Text = Mysql.Usuarionombre
+                    
+End
+
+Public Sub TextBox1_GotFocus()
+TextBox1.Text = ""
+TextBox1.Foreground = Color.White
+End
+
+Public Sub TextBox1_LostFocus()
+If TextBox1.Text = "" Then
+TextBox1.Text = "Buscar"
+TextBox1.Foreground = Color.Gray
+Endif
+End
+
+
+
+
+Public Sub DataBrowser1_MouseDown()
+P1.Y = -180
+P4.Y = -60
+
+Timer1.Enabled = True
+Timer2.Enabled = True
+TextBox2.Text = DataControl1.value
+ L1.Visible = True
+C1.Visible = True
+If DataControl4.Value = 1 Then
+c1.Value = True 
+Else
+C1.Value = False
+Endif
+End
+
+
+
+
+
+
+
+
+Public Sub Label2_MouseMove()
+
+Me.X = (Mouse.ScreenX)
+ Wait 0.002
+Me.Y = (Mouse.ScreenY)
+
+End
+
+
+
+
+Public Sub Button1_Click()
+Me.Close
+End
+
+
+Public Sub Button2_Click()
+
+Me.Minimized = True
+
+End
+
+Public Sub Timer1_Timer()
+If PictureBox1.X <> 1700 Then 
+PictureBox1.X = PictureBox1.X + 10
+Else
+Timer1.Enabled = False
+Endif
+
+End
+
+Public Sub Timer2_Timer()
+
+If P1.Y < 72 Then
+  P1.Y = P1.Y + 6
+End If
+If P4.Y < 208 Then
+  P4.Y = P4.Y + 6
+End If
+If P4.Y = 208 Or P4.Y > 208 Then Timer2.Enabled = False
+
+End
+
+Public Sub Nuevo_Click()
+Dim seleccionar As Result
+Dim selecttx As Result
+Dim selectty As Result
+Dim borrartemp As Result
+Dim i As Integer
+Dim nuevo As Result
+Selectt = Mysql.Conexion.Exec("Select * From Proyecto where Proyecto_nombre='" & TextBox2.Text & "'")
+If TextBox2.Text = "" Then
+Message.Warning("Escriba un nombre para el nuevo proyecto")
+Else
+If Selectt.Count = 1 Then
+ Message.Warning("Ya existe un proyecto con este nombre")
+Else
+If TextBox2.Text <> "" And Selectt.Max <> 1 Then
+   borrartemp = Mysql.Conexion.Exec("truncate table Graficos_temp")
+nuevo = Mysql.Conexion.Exec("Insert into Proyecto(Proyecto_nombre, fecha_i, fecha_f, Usuario) values ('" & TextBox2.Text & "', Date(Now()), Date(Now()),'" & label1.Text & "')")
+DataSource2.Table = "Proyecto"
+DataSource2.Refresh
+seleccionar = Mysql.Conexion.Exec("select nombre from Graficos where nombre = '" & TextBox2.Text & "' ")
+Mysql.Proyectonombre = TextBox2.Text
+FMain.Show
+FMain.num_menos = FMain.num_menos + 1
+FMain.num_mas = 0
+bdArray.Borrar
+selecttx = Mysql.Conexion.Exec("select x from Graficos where nombre = '" & TextBox2.Text & "' ")
+selectty = Mysql.Conexion.Exec("select y from Graficos  where nombre = '" & TextBox2.Text & "' ")
+FMain.maxx = selecttx.Count
+FMain.maxx = FMain.maxx - FMain.num_menos
+For i = 1 To FMain.maxx Step 1
+ FMain.pointsArr_x.Add(selecttx[0])
+ FMain.pointsArr_y.Add(selectty[0])
+selecttx.MoveNext
+selectty.MoveNext
+   Next
+   Me.Close
+Else
+Endif 
+Endif
+Endif 
+End
+
+
+
+Public Sub cerrar_Click()
+Me.Close
+End
+
+
+Public Sub Nuevo2_Click()
+Me.Close
+Mysql.Cerrar_BD
+AbrirProyect.Show
+
+End
+
+Public Sub Borrar_Click()
+Dim borrarProyecto As Result
+If TextBox2.Text = "" Then
+Message.Info("No se seleciono ningun proyecto")
+Else
+Select Message.Question("¿ Desea borrar completamente el Proyecto " & TextBox2.Text & "  ? ", " Sí", "No")
+Case 1
+borrarProyecto = Mysql.Conexion.Exec("delete from Proyecto where Proyecto_nombre = '" & TextBox2.Text & "' ")
+borrarProyecto = Mysql.Conexion.Exec("delete from Graficos where nombre = '" & TextBox2.Text & "' ")
+borrarProyecto = Mysql.Conexion.Exec("delete from Graficos_temp where nombre = '" & TextBox2.Text & "' ")
+DataBrowser1.Refresh
+Catch
+Case 2
+  End Select
+Endif
+End
+
+Public Sub ToggleButton2_Click()
+
+DataSource2.Filter = ("Usuario = '" & Label1.Text & "' ")
+
+End
+
+Public Sub ToggleButton1_Click()
+
+DataSource2.Filter = ("")
+End
+
+Public Sub TextBox1_KeyRelease()
+  DataSource2.Filter = ("match(Proyecto_nombre)against('" & TextBox1.Text & "') ")
+
+  If TextBox1.Text = "" Then
+   DataSource2.Filter = ("")
+   Endif
+
+End
+

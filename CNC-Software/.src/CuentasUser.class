@@ -1,0 +1,164 @@
+' Gambas class file
+
+Public Sub TextBox1_KeyPress()
+
+If Key.Code = 16777220 Then
+If CuentasUser.TextBox1.text = "" Then
+info.Text = "Ingrese un nombre de usuario "
+Else
+  ComboBox1.SetFocus
+  End If
+  End If
+End
+
+Public Sub ComboBox1_KeyPress()
+  If Key.Code = 16777220 Then
+  TextBox2.SetFocus
+  End If
+End
+
+Public Sub TextBox2_KeyPress()
+  If Key.Code = 16777220 Then
+If CuentasUser.TextBox1.text = "" Then
+info.Text = "Ingrese una contraseña "
+Else
+  TextBox3.SetFocus
+  End If
+  End If
+End
+Public Sub TextBox3_KeyPress()
+  If Key.Code = 16777220 Then
+If CuentasUser.TextBox3.text = "" Then
+info.Text = "Repita la Contraseña "
+Else
+  Button1_Click
+  End If
+  End If
+End
+
+
+Public Sub Button1_Click()
+Dim Nupdate As Result
+  Me.Center
+  Panel2.Y = -60
+Panel3.Y = -60
+Panel4.Y = -60
+Panel5.Y = -60
+  Timer2.Enabled = True
+If TextBox1.text = "" Then
+info.Text = "Ingrese un nombre de usuario"
+Else If TextBox2.text <> TextBox3.Text Then
+info.Text = "Las contraseñas no coinciden "
+Else
+Nupdate = Mysql.Conexion.Exec("Insert into Usuario(NOMBRE, CARGO, PASS) values ('" & TextBox1.Text & "','" & ComboBox1.text & "','" & Textbox2.text & "' )")
+Message.Info("Cuenta Agregada con exito ")
+Catch
+Message.Info("Ya hay otra cuenta con ese nombre de Usuario ")
+CuentasUser.Close
+CuentasUser.Show
+End If 
+End
+
+
+Public Sub Form_Open()
+Panel2.Y = -60
+Panel3.Y = -60
+Panel4.Y = -60
+Panel5.Y = -60
+ Timer2.Enabled = True
+ COMBOCARGAR()
+End
+
+Public Sub Button2_Click()
+Dim varresult As Result
+Dim varresultt As Result
+Dim li As String
+Try Mysql.CONECTAR_BD
+If TextBox4.Text = "" Or DataComboView1.Text = "" Then 
+info2.Text = "Complete todos los campos "
+Else
+varresultt = Mysql.Conexion.Exec("Select CARGO From Usuario where PASS =  '" & TextBox4.Text & "'")
+If varresultt.Count = 0 Then
+info2.Text = "Contraseña incorrecta"
+Else
+li = varresultt[0]
+If li = "Administrador" Or li = "Root" Then
+   varresult = Mysql.Conexion.Exec("DELETE FROM Usuario WHERE NOMBRE =  '" & DataComboView1.Text & "' ")
+   COMBOCARGAR
+   info2.Text = "Ok"
+Else If li = "Limitado" Then
+   info2.Text = "No posee permiso parar Eliminar CuentasUser "
+Endif
+Endif
+Endif
+Catch
+Me.Close
+CuentasUser.Show
+End
+
+
+Public Sub TabStrip1_Click()
+End
+
+Public Sub Button4_Click()
+Me.Minimized = True
+
+End
+
+
+Public Sub Label1_MouseMove()
+
+Me.X = (Mouse.ScreenX)
+ Wait 0.002
+Me.Y = (Mouse.ScreenY)
+
+End
+
+Public Sub Timer2_Timer()
+
+If Panel2.Y < 8 Then
+  Panel2.Y = Panel2.Y + 4
+End If
+If Panel3.Y < 72 Then
+  Panel3.Y = Panel3.Y + 4
+End If
+If Panel4.Y < 136 Then
+  Panel4.Y = Panel4.Y + 4
+End If
+If Panel5.Y < 200 Then
+  Panel5.Y = Panel5.Y + 4
+End If
+If Panel5.Y = 200 Or Panel5.Y > 200 Then Timer2.Enabled = False
+
+End
+
+
+
+Public Sub COMBOCARGAR()
+Dim i As Integer
+Dim varresult As Result
+Mysql.CONECTAR_BD()
+  varresult = Mysql.Conexion.Exec("select NOMBRE from Usuario")
+For i = 0 To varresult.Count Step 1
+varresult.MoveNext
+Try DataComboView1.Add(varresult[0])
+Next
+Me.Center
+Mysql.Cerrar_BD
+  
+  
+End
+
+
+
+Public Sub Cerrar_Click()
+
+  Me.Close
+
+End
+
+Public Sub Minimizar_Click()
+
+  Me.Minimized = True
+
+End

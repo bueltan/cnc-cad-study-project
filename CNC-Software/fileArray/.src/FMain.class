@@ -1,0 +1,41 @@
+' Gambas class file
+
+Public xx As New String[]
+Public yy As New String[]
+Public contenidox As String
+ Public contenidoy As String
+
+Public Sub Button2_Click()
+contenidox = xx.Join("-") 
+ contenidoy = yy.Join("-")
+ File.Save("/home/Denis/Documentos" & "/prueba.Cncx", contenidox)
+  File.Save("/home/Denis/Documentos" & "/prueba.Cncy", contenidoy)
+
+End
+
+Public Sub Button1_Click()
+xx.Add(TextBox1.Text)
+ yy.Add(TextBox2.Text)
+End
+
+Public Sub Button3_Click()
+Dim i As Integer
+ListBox1.Clear
+ListBox2.Clear
+xx.Clear
+ yy.Clear
+contenidox = File.Load("/home/Denis/Documentos" & "/prueba.Cncx")
+ contenidoy = File.Load("/home/Denis/Documentos" & "/prueba.Cncy")
+ xx = Split(contenidox, "-")
+  yy = Split(contenidoy, "-")
+
+ For i = 0 To xx.Max 
+ ListBox1.Add(xx[i])
+ Next
+   For i = 0 To yy.Max 
+   ListBox2.Add(yy[i])
+  Next
+contenidox = ""
+ contenidoy = ""
+End
+

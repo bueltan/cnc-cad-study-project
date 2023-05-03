@@ -1,0 +1,362 @@
+' Gambas module file
+
+  Public timeM0 As Float
+  Public ciclosM0 As Integer
+  Public timeM1 As Float
+  Public ciclosM1 As Integer
+  Public a As Integer
+   Public b As Integer
+  Public timex As Float
+  Public timey As Float
+  Public progres As Float
+    Public progrest As Float
+  Public tiempo As Float
+  
+Public Sub derechax()
+ciclosM0 = Val(CtrlManual.TextBox1.text)
+timeM0 = Val(CtrlManual.TextBox2.text)
+timex = Val(CtrlManual.TextBox5.text)
+
+While a <> ciclosM0
+    If CtrlManual.Stopp1 = True Then
+  offcanal0()
+  CtrlManual.Stopp1 = False
+Return
+    Endif
+  
+  Wait timeM0
+
+  
+  offcanal0()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 8
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+  Seek #CtrlManual.puerto, &H378
+CtrlManual.salida = CtrlManual.salida Or 2
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+  Wait timeM0
+  
+  offcanal0()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 8
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 1 
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+ 
+  Wait timeM0
+  
+  offcanal0()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 4
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 1
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+  Wait timeM0
+  
+  offcanal0()
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 4
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+ Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 2
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+
+  a = a + 1
+Wend
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = 0
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ a = 0
+
+End
+Public Sub izquierdax()
+ciclosM0 = Val(CtrlManual.TextBox1.text)
+timeM0 = Val(CtrlManual.TextBox2.text)
+timex = Val(CtrlManual.TextBox5.text)
+
+While a <> ciclosM0
+  If CtrlManual.Stopp1 = True Then
+  offcanal0()
+  CtrlManual.Stopp1 = False
+Return
+    Endif
+  
+  
+  Wait timeM0
+
+   offcanal0()
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 4
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+ Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 2
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+  Wait timeM0
+  
+   offcanal0()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 4
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 1
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+
+  Wait timeM0
+  
+  offcanal0()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 8
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 1 
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+  Wait timeM0
+  
+   offcanal0()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 8
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+  Seek #CtrlManual.puerto, &H378
+CtrlManual.salida = CtrlManual.salida Or 2
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+  
+
+
+  a = a + 1
+Wend
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = 0
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ a = 0
+
+End
+
+
+
+
+Public Sub derechay()
+
+ciclosM1 = Val(CtrlManual.TextBox3.text)
+timeM1 = Val(CtrlManual.TextBox4.text)
+timey = Val(CtrlManual.TextBox6.text)
+
+
+
+While b <> ciclosM1
+  If CtrlManual.Stopp = True Then
+  offcanal1()
+  CtrlManual.Stopp = False
+Return
+    Endif
+  
+  Wait timeM1
+  
+  offcanal1()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 128
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+  Seek #CtrlManual.puerto, &H378
+CtrlManual.salida = CtrlManual.salida Or 32
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+  Wait timeM1
+  
+  offcanal1()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 128
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 16 
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+ 
+  Wait timeM1
+  
+  offcanal1()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 64
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 16
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+  Wait timeM1
+  
+  offcanal1()
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 64
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+ Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 32
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+
+  b = b + 1
+Wend
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = 0
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ b = 0
+
+End
+
+Public Sub izquierday()
+ciclosM1 = Val(CtrlManual.TextBox3.text)
+timeM1 = Val(CtrlManual.TextBox4.text)
+timey = Val(CtrlManual.TextBox6.text)
+
+While b <> ciclosM1
+   If CtrlManual.Stopp = True Then
+  offcanal1()
+  CtrlManual.Stopp = False
+Return
+    Endif
+  
+  Wait timeM1
+   offcanal1()
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 64
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+ Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 32
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+  Wait timeM1
+  
+  offcanal1()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 64
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 16 
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+ 
+  Wait timeM1
+  
+  offcanal1()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 128
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 16
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+  Wait timeM1
+  
+
+ 
+  offcanal1()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida Or 128
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+  Seek #CtrlManual.puerto, &H378
+CtrlManual.salida = CtrlManual.salida Or 32
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+
+  b = b + 1
+Wend
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = 0
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ b = 0
+
+End
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Public Sub offcanal0()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida And (255 - 8)
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida And (255 - 4)
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida And (255 - 2)
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+     Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida And (255 - 1)
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+End
+Public Sub offcanal1()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida And (255 - 128)
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida And (255 - 64)
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida And (255 - 32)
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+     Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = CtrlManual.salida And (255 - 16)
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+End
+Public Sub XHY()
+Dim p As Integer
+Calcular.autocalculo
+'/////////////////////////////////////////
+Calcular.monitorV
+'////////////////////////////////////////
+Wait 1
+Calcular.ASIGNARXANDY
+Calcular.ProcessInX 
+Calcular.ProcessInY
+If CtrlManual.Chk2.Value = True Or CtrlManual.Chk1.Value = False Then
+Calcular.sumarXHY
+Else
+Calcular.sumarXandY
+Endif
+tiempo = (Calcular.SteperXandY.Max / 1000) 
+ For p = 0 To Calcular.SteperXandY.Max 
+Seek #CtrlManual.puerto, &H378
+CtrlManual.salida = Calcular.SteperXandY[p]
+Wait 0.001
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 'progrest = (p / 1000)
+ progres = progres + (1 / Calcular.SteperXandY.Max)
+  Next
+   progres = 0
+  ' progrest = 0
+   tiempo = 0
+
+ 'MonitorizarCalc.ProgressBar1.Value = MonitorizarCalc.ProgressBar1.Value + (1 / ((MonitorizarCalc.pasos[0] / 2) + 2))
+
+End
+
+ 

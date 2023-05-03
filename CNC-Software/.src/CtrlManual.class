@@ -1,0 +1,385 @@
+' Gambas class file
+
+' ' Gambas class file
+' 
+Public endOrden As String
+Public arriba As String
+Public abajo As String
+Public puerto As File
+Public salida As Byte
+Public PuertoEstado As File
+Public Entrada As Byte
+Const bit3 As Byte = 8
+Const bit4 As Byte = 16
+Const bit5 As Byte = 32
+Const bit6 As Byte = 64
+Const bit7 As Byte = 128
+Public sennal As Boolean
+Public sennal1 As Boolean
+Public Stopp As Boolean
+Public Stopp1 As Boolean
+Public HASTA0X As Boolean
+Public HASTA0Y As Boolean
+
+' 
+Public Sub Form_Open()
+Label9.Text = Mysql.softwareandvercion
+Me.center
+Timer1.Enabled = True
+ puerto = Open "/dev/port" For Write
+
+End
+
+Public Sub up_Click()
+ Seek #puerto, &H37A
+  Write #puerto, 201 As Byte
+  sennal1 = True
+
+End
+
+
+
+
+Public Sub down_Click()
+ Seek #puerto, &H37A
+  Write #puerto, 202 As Byte
+   sennal = True
+End
+' 
+Public Sub Timer1_Timer()
+puertoEstado = Open "/dev/port" For Read
+Seek #puertoEstado, &H379
+Read #puertoEstado, Entrada
+Close puertoEstado
+If (Entrada And bit3) = bit3 Then
+SA.Value = 0
+A.Visible = False
+PictureBox3.X = 176
+Else
+SA.Value = 1
+A.Visible = True
+PictureBox3.X = 48
+
+End If
+If (Entrada And bit4) = bit4 Then
+Chk1.Value = 0
+Sdown.Visible = False
+Else
+Chk1.Value = 1
+Sdown.Visible = True
+
+End If
+If (Entrada And bit5) = bit5 Then
+Chk2.Value = 1
+Sup.Visible = True
+Else
+Chk2.Value = 0
+Sup.Visible = False
+End If
+If (Entrada And bit6) = bit6 Then
+SC.Value = 1
+C.Visible = True
+Else
+SC.Value = 0
+C.Visible = False
+End If
+
+If (Entrada And bit7) = bit7 Then
+SB.Value = 1
+B.Visible = True
+Else
+SB.Value = 0
+B.Visible = False
+End If
+If Sdown.Visible = False And Sup.Visible = False Then
+ center.Visible = True
+ Else
+ center.Visible = False 
+Endif
+
+If Sdown.Visible = True And sennal = True Then
+  stop_Click()
+  sennal = False
+Endif
+If Sup.Visible = True And sennal1 = True Then
+  stop_Click()
+  sennal1 = False
+Endif
+End
+
+
+Public Sub stop_Click()
+ Seek #puerto, &H37A
+  Write #puerto, 203 As Byte
+  Catch
+End
+
+
+
+
+
+
+
+
+
+
+
+Public Sub Iniciar_Click()
+ Seek #puerto, &H37A
+  Write #puerto, 203 As Byte
+  up_Click
+  offtodos_Click()
+
+Do While sb.Value = False Or SA.Value = False 
+ '---------------------------------------------------------------------------  
+  If sb.Value = False And SA.Value = True Then
+ Wait 0.002
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = 96
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+  Wait 0.002
+  Stepper.offcanal1()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = 80
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+  Wait 0.002
+  Stepper.offcanal1()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = 144
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+   Wait 0.002
+  Seek #CtrlManual.puerto, &H378
+CtrlManual.salida = 160
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+'***********************************************
+ '---------------------------------------------------------------------------
+ Else If sb.Value = True And SA.Value = False Then
+  Wait 0.002
+  Seek #CtrlManual.puerto, &H378
+CtrlManual.salida = 10
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+  Wait 0.002
+  
+  Stepper.offcanal0()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = 9
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ 
+  Wait 0.002
+  
+  Stepper.offcanal0()
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = 5
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+  Wait 0.002
+  
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = 6
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+
+  Else
+  '---------------------------------------------------------------------------
+ Wait 0.002
+    Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = 106
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ Wait 0.002
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = 89
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ Wait 0.002
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = 149
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+ Wait 0.002
+   Seek #CtrlManual.puerto, &H378
+ CtrlManual.salida = 166
+ Write #CtrlManual.puerto, CtrlManual.salida As Byte
+
+   Endif
+   Loop
+   offtodos_Click()
+End 
+  
+
+Public Sub ontodos_Click()
+ Seek #puerto, &H378
+  Write #puerto, 255 As Byte
+End
+
+Public Sub offtodos_Click()
+ Seek #puerto, &H378
+ Write #puerto, 0 As Byte
+ Catch
+End
+
+Public Sub salir_Click()
+ Seek #puerto, &H378
+ Write #puerto, 0 As Byte
+Close #puerto
+Me.Close
+End
+
+Public Sub d0_Click()
+If d0.Value = True Then 
+Seek #puerto, &H378
+salida = salida Or 128
+ Write #puerto, salida As Byte
+  Else
+ Seek #puerto, &H378
+salida = salida And (255 - 128)
+  Write #puerto, salida As Byte
+Endif
+
+End
+
+Public Sub d1_Click()
+If d1.Value = True Then 
+Seek #puerto, &H378
+salida = salida Or 64
+ Write #puerto, salida As Byte
+  Else
+ Seek #puerto, &H378
+salida = salida And (255 - 64)
+  Write #puerto, salida As Byte
+Endif
+End
+
+Public Sub d2_Click()
+If d2.Value = True Then 
+Seek #puerto, &H378
+salida = salida Or 32
+ Write #puerto, salida As Byte
+  Else
+ Seek #puerto, &H378
+salida = salida And (255 - 32)
+  Write #puerto, salida As Byte
+Endif
+End
+
+Public Sub d3_Click()
+If d3.Value = True Then 
+Seek #puerto, &H378
+salida = salida Or 16
+ Write #puerto, salida As Byte
+  Else
+ Seek #puerto, &H378
+salida = salida And (255 - 16)
+  Write #puerto, salida As Byte
+Endif
+  
+
+End
+
+Public Sub d4_Click()
+If d4.Value = True Then 
+Seek #puerto, &H378
+salida = salida Or 8
+ Write #puerto, salida As Byte
+  Else
+ Seek #puerto, &H378
+salida = salida And (255 - 8)
+  Write #puerto, salida As Byte
+Endif
+
+End
+
+Public Sub d5_Click()
+If d5.Value = True Then 
+Seek #puerto, &H378
+salida = salida Or 4
+ Write #puerto, salida As Byte
+  Else
+ Seek #puerto, &H378
+salida = salida And (255 - 4)
+  Write #puerto, salida As Byte
+Endif
+End
+
+Public Sub d6_Click()
+If d6.Value = True Then 
+Seek #puerto, &H378
+salida = salida Or 2
+ Write #puerto, salida As Byte
+  Else
+ Seek #puerto, &H378
+salida = salida And (255 - 2)
+  Write #puerto, salida As Byte
+Endif
+End
+
+Public Sub d7_Click()
+If d7.Value = True Then 
+Seek #puerto, &H378
+salida = salida Or 1
+ Write #puerto, salida As Byte
+  Else
+ Seek #puerto, &H378
+salida = salida And (255 - 1)
+  Write #puerto, salida As Byte
+Endif
+End
+
+Public Sub Button1_Click()
+If RadioButton1.Value = True Then
+Stepper.derechax
+Else 
+Stepper.izquierdax
+End If
+End
+ 
+Public Sub Button2_Click()
+If RadioButton3.Value = True Then
+Stepper.derechay
+Else 
+Stepper.izquierday
+End If
+End
+
+' Public Sub Button3_Click()
+' If RadioButton3.Value = True Then
+' Stepper.derechay
+' Else 
+' Stepper.izquierday
+' End If
+' 
+' End
+' 
+' Public Sub Button4_Click()
+' If Stopp = True Then
+'   Stopp = False
+'   Else
+'   Stopp = True
+'     Endif
+' End
+
+
+
+
+
+
+Public Sub Button5_Click()
+If Stopp1 = True Then
+  Stopp1 = False
+  Else
+  Stopp1 = True
+    Endif
+  End
+
+
+
+Public Sub Cerrar_Click()
+
+Me.Close
+
+End
+
+Public Sub Minimizar_Click()
+
+ Me.Minimized = True
+FMain.ShowDialog
+End
+
+

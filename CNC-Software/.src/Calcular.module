@@ -1,0 +1,354 @@
+' Gambas module file
+
+Public Ey As Integer
+Public Ex As Integer
+''''''''''''''''''''''''
+Public Ax As Byte
+Public Bx As Byte
+Public Cx As Byte
+Public Dx As Byte
+''''''''''''''''''''''''
+Public Ay As Byte
+Public By As Byte
+Public Cy As Byte
+Public Dy As Byte
+Public SteperXN As New Byte[]
+Public SteperYN As New Byte[]
+Public SteperXandY As New Byte[]
+
+
+Public Sub autocalculo()
+   Dim i As Integer
+
+Dim menor As Float
+Variables.limpiar
+menor = 10000000
+Variables.i = 0
+Variables.ii = 0
+Try MonitorizarCalc.GridView1.Clear
+For i = 2 To 10 Step 1
+ Variables.TpMin = i
+Variables.limpiar
+Variables.PG = 200
+
+'MULTIPLICAR
+Variables.MULTIPLICAR
+Variables.Asignar
+Variables.Sumatorias
+Variables.MargError
+Next
+
+For i = 0 To Variables.MError.Max Step 1
+  If menor > Variables.MError[i] Then
+ menor = Variables.MError[i]
+ Variables.TpMin = Variables.MTpMin[i]
+Variables.limpiar
+Variables.PG = 200
+'MULTIPLICAR
+Variables.MULTIPLICAR
+Variables.Asignar2
+Variables.Sumatorias
+Variables.MargError2
+ Endif
+Next
+
+Variables.MError.Clear
+Variables.MTpMin.Clear    
+End
+
+Public Sub ASIGNARXANDY()
+If CtrlManual.Chk2.Value = True Or CtrlManual.Chk1.Value = False Then
+Ex = 2
+Ey = 2
+Variables.Tpx = 2
+Variables.Tpy = 2
+Else
+Ex = Variables.Tpx
+Ey = Variables.Tpy  
+Endif
+
+End
+
+Public Sub ProcessInX()
+Dim i As Integer
+Dim e As Integer
+If Variables.SENTIDOX = "A" Then
+Ax = 10
+Bx = 9
+Cx = 5
+Dx = 6
+ Else If Variables.SENTIDOX = "D" Then
+Ax = 6
+Bx = 5
+Cx = 9
+Dx = 10
+Endif
+
+If Variables.Px = 0 Then
+Variables.Px = Variables.Py
+Ex = Variables.Tpy
+Ax = 0
+Bx = 0
+Cx = 0
+Dx = 0
+Endif
+
+For e = 1 To (Variables.Px / 4)
+  
+For i = 1 To Ex 
+  If i > 15 Then 
+   SteperXN.Add(0)
+  Else
+  SteperXN.Add(Ax)
+  Endif
+Next
+For i = 1 To Ex 
+   If i > 15 Then 
+   SteperXN.Add(0)
+  Else
+  SteperXN.Add(Bx)
+  Endif
+Next
+For i = 1 To Ex 
+  If i > 15 Then 
+   SteperXN.Add(0)
+  Else
+  SteperXN.Add(Cx)
+  Endif
+Next
+For i = 1 To Ex 
+  If i > 15 Then 
+   SteperXN.Add(0)
+  Else
+  SteperXN.Add(Dx)
+  Endif
+Next
+Next
+End
+
+
+Public Sub ProcessInY()
+  Dim i As Integer
+  Dim e As Integer
+If Variables.SENTIDOY = "C" Then
+Ay = 160
+By = 144
+Cy = 80
+Dy = 96
+Else If Variables.SENTIDOY = "B" Then
+Ay = 96
+By = 80
+Cy = 144
+Dy = 160
+Endif
+
+If Variables.Py = 0 Then
+Variables.Py = Variables.Px
+Ey = Variables.Tpx
+Ay = 0
+By = 0
+Cy = 0
+Dy = 0
+Endif
+
+For e = 1 To (Variables.Py / 4)
+ 
+For i = 1 To Ey 
+    If i > 15 Then 
+   SteperYN.Add(0)
+  Else
+  SteperYN.Add(Ay)
+  Endif
+Next
+
+For i = 1 To Ey 
+     If i > 15 Then 
+   SteperYN.Add(0)
+  Else
+  SteperYN.Add(By)
+  Endif
+Next
+For i = 1 To Ey 
+     If i > 15 Then 
+   SteperYN.Add(0)
+  Else
+  SteperYN.Add(Cy)
+  Endif
+Next
+For i = 1 To Ey
+     If i > 15 Then 
+   SteperYN.Add(0)
+  Else
+  SteperYN.Add(Dy)
+  Endif
+Next
+ 
+Next
+
+End
+
+Public Sub sumarXandY()
+Dim I As Integer
+Dim determint As Integer
+If SteperXN.Count = SteperYN.Count Then
+  determint = SteperXN.Count
+Endif
+If SteperXN.Count < SteperYN.Count Then
+ determint = SteperXN.Count
+ Else
+ determint = SteperYN.Count
+Endif
+
+For I = 0 To determint - 1
+SteperXandY.Add(SteperXN[I] + SteperYN[I])
+Next
+
+End
+Public Sub sumarXHY()
+Dim I As Integer
+Dim determint As Integer
+
+If SteperXN.Count = SteperYN.Count Then
+  determint = SteperXN.Count
+Endif
+If SteperYN.Count < SteperXN.Count Then
+ determint = SteperXN.Count
+ For I = 0 To determint - 1 
+SteperXandY.Add(SteperXN[I])
+Next
+For I = 0 To SteperYN.Count - 2 
+SteperXandY[I] = (SteperXandY[I] + SteperYN[I])
+Next
+ '----------------------------------------------------------
+ Else  
+ determint = SteperYN.Count - 1
+ For I = 0 To determint - 1
+SteperXandY.Add(SteperYN[I])
+Next
+For I = 0 To SteperXN.Count - 2
+SteperXandY[I] = (SteperXandY[I] + SteperXN[I])
+Next
+Endif
+End
+Public Sub CNCBEGIN()
+Dim G As Boolean
+Dim i As Integer
+Dim tempp As Float
+Dim back As Integer
+CtrlManual.Iniciar_Click()
+Variables.FX1.Clear
+Variables.FX2.Clear
+Variables.FY1.Clear
+Variables.FY2.Clear
+Variables.FY12.Clear
+Variables.FY12.Clear
+back = -15
+MonitorizarCalc.cargar_Click()
+
+For i = 0 To Variables.FX2.Count - 1
+If Variables.FX2[i] = 0 And Variables.FY2[i] = 0 Then 
+back = back + 1
+Endif
+
+Next
+
+ CtrlManual.up_Click()
+Wait 1
+Variables.FX12.Add(Variables.FX1[0])
+Variables.Xcm = (Variables.FX1[0])
+Variables.SENTIDOX = "D"
+ Variables.SENTIDOY = "C"
+ Variables.Ycm = 0
+Stepper.XHY
+
+ Variables.FY12.Add(Variables.FY1[0])
+
+ Variables.SENTIDOY = "C"
+ Variables.Ycm = (Variables.FY12[0])
+ Variables.Xcm = 0
+Variables.SENTIDOX = "D"
+
+Stepper.XHY
+
+ CtrlManual.down_Click()
+
+  Wait 2
+
+For i = 0 To Variables.FX2.Count - back
+CtrlManual.offtodos_Click()
+
+If Variables.FX2[i] = 0 And Variables.FY2[i] = 0 Then 
+
+G = True
+CtrlManual.up_Click()
+  Wait 1
+
+Variables.a = 1
+i = i + 1
+Else
+G = False
+Variables.a = 0
+Endif
+
+'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+tempp = ((Variables.FX2[i]) - (Variables.FX1[i - Variables.a]))
+If tempp < 0 Then
+
+Variables.SENTIDOX = "A"
+Else
+
+Variables.SENTIDOX = "D"
+Endif
+Variables.Xcm = Abs(Tempp)
+Variables.FY12.Add(Abs(Tempp))
+
+'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+Tempp = (Variables.FY2[i] - Variables.FY1[i - Variables.a])
+If tempp < 0 Then
+ Variables.SENTIDOY = "B"
+ Else 
+ Tempp = (Variables.FY1[i - Variables.a] - Variables.FY2[i])
+  Variables.SENTIDOY = "C"
+ Endif
+  Variables.Ycm = Abs(Tempp)
+  Variables.FY12.Add(Abs(Tempp))
+
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Stepper.XHY
+If G = True Then
+ CtrlManual.down_Click()
+
+  Wait 3
+Variables.a = 0
+G = False
+Endif
+Next
+CtrlManual.offtodos_Click()
+Catch
+CtrlManual.up_Click()
+
+End
+
+Public Sub monitorV()
+MonitorizarCalc.Xcm.Text = Variables.Xcm
+MonitorizarCalc.Ycm.Text = Variables.Ycm
+MonitorizarCalc.TEX.Text = Variables.SENTIDOX
+MonitorizarCalc.TEY.Text = Variables.SENTIDOY
+MonitorizarCalc.TpMin.Text = Variables.TpMin
+MonitorizarCalc.Tpx.Text = Variables.Tpx
+MonitorizarCalc.Tpy.Text = Variables.Tpy
+MonitorizarCalc.Px.Text = Variables.Px
+MonitorizarCalc.Py.Text = Variables.Py
+MonitorizarCalc.SfracX.Text = Variables.SFracX
+MonitorizarCalc.SfracY.Text = Variables.SFracY
+MonitorizarCalc.STpx.Text = Variables.STpx
+MonitorizarCalc.STpy.Text = Variables.stpy
+MonitorizarCalc.GMx.Text = Variables.Gmx
+MonitorizarCalc.GMy.Text = Variables.Gmy
+MonitorizarCalc.Error.Text = Variables.Errorr  
+
+End
+
+
+

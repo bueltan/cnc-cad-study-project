@@ -1,0 +1,105 @@
+' Gambas class file
+
+' ' Gambas class file
+' 
+' Public endOrden As String
+' Public arriba As String
+' Public abajo As String
+' Public puerto As File
+' Public salida As Byte
+' Public PuertoEstado As File
+' Public Entrada As Byte
+' Const bit3 As Byte = 8
+' Const bit4 As Byte = 16
+' Const bit5 As Byte = 32
+' Const bit6 As Byte = 64
+' Const bit7 As Byte = 128
+' 
+' 
+' 
+' Public Sub Form_Open()
+' Timer1.Enabled = True
+' '  puerto = Open "/dev/port" For Write
+' 
+' End
+' 
+' Public Sub up_Click()
+'  ' Seek #puerto, &H37A
+'  '  Write #puerto, 201 As Byte
+' End
+' 
+Public Sub ToggleButton1_Click()
+ Me.CLOSE
+
+End
+
+Public Sub ToggleButton2_Click()
+  Me.Minimized = True
+
+End
+
+Public Sub Panel5_MouseMove()
+Me.X = (Mouse.ScreenX)
+ Wait 0.002
+Me.Y = (Mouse.ScreenY)
+
+End
+' 
+' 
+' Public Sub down_Click()
+'  ' Seek #puerto, &H37A
+'  '  Write #puerto, 202 As Byte
+' End
+' 
+' Public Sub Timer1_Timer()
+' puertoEstado = Open "/dev/port" For Read
+' Seek #puertoEstado, &H379
+' Read #puertoEstado, Entrada
+' Close puertoEstado
+' If (Entrada And bit3) = bit3 Then
+' Chk3.Value = 1
+' Else
+' Chk3.Value = 0
+' End If
+' If (Entrada And bit4) = bit4 Then
+' Chk0.Value = 1
+' Else
+' Chk0.Value = 0
+' End If
+' If (Entrada And bit5) = bit5 Then
+' Chk4.Value = 1
+' Else
+' Chk4.Value = 0
+' End If
+' If (Entrada And bit6) = bit6 Then
+' Chk00.Value = 1
+' Else
+' Chk00.Value = 0
+' End If
+' 
+' If (Entrada And bit7) = bit7 Then
+' Chk7.Value = 1
+' Else
+' Chk7.Value = 0
+' End If
+' 
+' End
+' 
+' Public Sub stop_Click()
+'  ' Seek #puerto, &H37A
+'  '  Write #puerto, 203 As Byte
+' End
+
+
+
+Public Sub up_Click()
+
+  
+
+End
+
+Public Sub ToolButton4_Click()
+
+  
+
+End

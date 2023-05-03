@@ -1,0 +1,128 @@
+' Gambas module file
+
+' Modulo de constantas y variables
+Public TpMin As Integer
+Public Px As Float
+Public Py As Float
+Public Xcm As Float
+Public Ycm As Float
+Public Tpx As Float
+Public Tpy As Float
+Public STpx As Float
+Public STpy As Float
+Public Spx As Float
+Public Spy As Float
+Public Gmx As Float
+Public Gmy As Float
+Public SFracX As Float
+Public SFracY As Float
+Public Errorr As Float
+Public MError As New Float[]
+Public MTpMin As New Integer[]
+Public FX1 As New Float[]
+Public FX2 As New Float[]
+Public FY1 As New Float[]
+Public FY2 As New Float[]
+Public FX12 As New Float[]
+Public FY12 As New Float[]
+Public SENTIDOX As String
+Public SENTIDOY As String
+Public a As Integer
+Public i As Integer
+Public ii As Integer
+
+'Constantes
+
+Public cmv As Float
+Public PG As Float
+
+Public Sub MULTIPLICAR()
+Px = Xcm * cmv * PG
+Py = Ycm * cmv * PG
+Gmx = Px / PG
+GmY = Py / PG
+End
+
+Public Sub Asignar()
+If px > py Then
+Tpx = TpMin
+STpx = Tpx * Px
+Try Tpy = STpx / Py
+STpy = Int(Tpy) * Py
+Else
+Tpy = TpMin 
+STpy = Tpy * Py
+Try Tpx = STpy / Px
+STpx = Int(Tpx) * Px
+
+Endif
+MTpMin.Add(TpMin)
+MonitorizarCalc.GridView1[i, 0].Text = TpMin
+i = i + 1
+Catch
+End
+
+Public Sub Sumatorias()
+SFracY = Frac(Tpy) * Py
+SFracX = Frac(Tpx) * Px
+End
+
+Public Sub MargError()
+If SFracX <> 0 Then
+Errorr = ((SFracX / Tpx) / PG) / cmv
+Else If SFracY <> 0 Then
+Errorr = ((SFracY / TpY) / PG) / cmv
+Endif
+If Errorr = Null Then
+Errorr = 0
+Endif
+MError.Add(Errorr)
+MonitorizarCalc.GridView1[ii, 1].Text = Errorr
+ii = ii + 1
+Catch
+End
+
+
+Public Sub limpiar()
+Px = 0
+PY = 0
+Tpx = 0
+tpy = 0
+STpy = 0
+STpx = 0
+SFracY = 0
+SFracX = 0
+ Errorr = 0
+ Calcular.SteperXN.Clear
+ Calcular.SteperYN.Clear
+ Calcular.SteperXandY.Clear
+End
+Public Sub MargError2()
+If SFracX <> 0 Then
+Errorr = ((SFracX / Tpx) / PG) / cmv
+Else If SFracY <> 0 Then
+Errorr = ((SFracY / TpY) / PG) / cmv
+Endif
+End
+Public Sub Asignar2()
+If px = 0 Then
+  Tpx = 0
+  STpx = 0
+  Tpy = 2
+ STpy = Int(Tpy) * Py
+ Else If py = 0 Then
+   Tpy = 0
+   Tpx = 2
+   STpx = Int(Tpx) * Px
+Else If px > py Then
+Tpx = TpMin
+STpx = Tpx * Px
+Tpy = STpx / Py
+STpy = Int(Tpy) * Py
+Else 
+Tpy = TpMin 
+STpy = Tpy * Py
+Tpx = STpy / Px
+STpx = Int(Tpx) * Px
+Endif
+End

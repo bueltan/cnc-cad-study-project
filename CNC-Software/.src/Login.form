@@ -1,0 +1,76 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  MoveScaled(0,0,79,22)
+  Background = Color.Foreground
+  Border = False
+  { PictureBox1 PictureBox
+    MoveScaled(61,3,17,16)
+    Picture = Picture["icon:/128/people"]
+  }
+  { !TextBox1 TextBox
+    MoveScaled(9,10,48,4)
+    #Public = True
+    Background = &H5F5F5F&
+    Foreground = Color.TextBackground
+    Alignment = Align.Center
+    MaxLength = 15
+    Border = False
+  }
+  { Button2 Button
+    MoveScaled(1,0,3,3)
+    Foreground = &H13139F&
+    Text = ("_")
+  }
+  { Button1 Button
+    MoveScaled(5,0,3,3)
+    Foreground = &H13139F&
+    Text = ("X")
+  }
+  { Label1 Label
+    MoveScaled(9,6,24,4)
+    Font = Font["Bold,+2"]
+    Foreground = Color.LightForeground
+    Text = ("USUARIO:")
+  }
+  { Panel1 Panel
+    MoveScaled(20,0,38,4)
+    Background = &H1F1F1F&
+    Border = Border.Sunken
+    { Label2 Label
+      MoveScaled(6,0,25,4)
+      Foreground = Color.SelectedBackground
+      Text = ("-")
+      Alignment = Align.Center
+    }
+  }
+  { Separator1 Separator
+    MoveScaled(58,4,2,16)
+  }
+  { !TextBox2 TextBox
+    MoveScaled(9,10,48,4)
+    #Public = True
+    Visible = False
+    Background = &H5F5F5F&
+    Foreground = Color.TextBackground
+    Text = ("funckoff")
+    Alignment = Align.Center
+    Password = True
+    MaxLength = 15
+    Border = False
+  }
+  { !passview CheckBox
+    MoveScaled(9,14,24,4)
+    #Public = True
+    Visible = False
+    Enabled = False
+    Foreground = Color.TextBackground
+    Text = ("Mostrar lo escrito")
+  }
+  { nombre Label
+    MoveScaled(62,18,17,4)
+    Font = Font["+1"]
+    Foreground = Color.TextBackground
+    Alignment = Align.Center
+  }
+}

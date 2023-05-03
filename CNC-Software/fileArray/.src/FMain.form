@@ -1,0 +1,35 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  MoveScaled(0,0,76,54)
+  { TextBox1 TextBox
+    MoveScaled(1,2,24,4)
+    Text = ("1")
+  }
+  { Button1 Button
+    MoveScaled(3,7,16,4)
+    Text = ("Button1")
+  }
+  { Button2 Button
+    MoveScaled(3,12,16,4)
+    Text = ("Button2")
+  }
+  { Button3 Button
+    MoveScaled(23,12,16,4)
+    Text = ("Button3")
+  }
+  { ListBox1 ListBox
+    MoveScaled(4,21,16,16)
+  }
+  { ListBox2 ListBox
+    MoveScaled(22,21,16,16)
+  }
+  { TextBox2 TextBox
+    MoveScaled(26,2,24,4)
+    Text = ("2")
+  }
+  { FileChooser1 FileChooser
+    MoveScaled(22,4,50,41)
+    Filter = Null
+  }
+}

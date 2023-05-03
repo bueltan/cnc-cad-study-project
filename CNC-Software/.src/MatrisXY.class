@@ -1,0 +1,45 @@
+' Gambas class file
+
+
+
+
+Public Sub Button1_Click()
+
+  Dim i As Integer
+ 
+  ListBox1.Clear
+  ListBox2.Clear
+  ListBox3.Clear
+MonitorizarCalc.calcularAuto_Click()
+
+Calcular.ASIGNARXANDY
+Calcular.ProcessInX 
+ For i = 0 To Calcular.SteperXN.Max 
+ ListBox1.Add(Calcular.SteperXN[i])
+ Next
+Calcular.ProcessInY
+ For i = 0 To Calcular.SteperYN.Max 
+ListBox2.Add(Calcular.SteperYN[i])
+ Next
+Calcular.sumarXHY
+ For i = 0 To Calcular.SteperXandY.Max 
+ ListBox3.Add(Calcular.SteperXandY[i])
+ Next
+ Message.Info(Calcular.SteperXN.Max)
+Message.Info(Calcular.SteperYN.Max)
+ Message.Info(Calcular.SteperXandY.Max)
+End
+
+
+
+Public Sub Cerrar_Click()
+
+  Me.Minimized = True
+
+End
+
+Public Sub minimizar_Click()
+
+    Me.CLOSE
+
+End
